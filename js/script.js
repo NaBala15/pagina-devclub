@@ -39,8 +39,9 @@ function initPressStart() {
 
   const heroEls = HERO_ASSEMBLE_ORDER.map(s => $(s)).filter(Boolean);
 
-  /* Sessão já viu o intro? pula direto */
-  if (sessionStorage.getItem(INTRO_KEY)) {
+  /* Sessão já viu o intro, ou URL pede pra pular (?nointro=1 —
+     usado pelo serviço de screenshot)? pula direto */
+  if (sessionStorage.getItem(INTRO_KEY) || location.search.includes('nointro')) {
     overlay.remove();
     return;
   }
@@ -570,6 +571,56 @@ function initProjCarousel(){
   root.addEventListener('mouseenter', () => { hovering = true; });
   root.addEventListener('mouseleave', () => { hovering = false; });
   startAuto();
+
+  /* Drag-to-scroll: arrasta o carrossel com o cursor do mouse */
+  let dragging = false, dragStartX = 0, dragStartScroll = 0;
+  track.addEventListener('pointerdown', (e) => {
+    dragging = true;
+    dragStartX = e.clientX;
+    dragStartScroll = track.scrollLeft;
+    track.classList.add('is-dragging');
+    track.setPointerCapture(e.pointerId);
+  });
+  track.addEventListener('pointermove', (e) => {
+    if (!dragging) return;
+    track.scrollLeft = dragStartScroll - (e.clientX - dragStartX);
+  });
+  const endDrag = () => {
+    if (!dragging) return;
+    dragging = false;
+    track.classList.remove('is-dragging');   /* snap volta e acomoda o card */
+    resetAuto();
+  };
+  track.addEventListener('pointerup', endDrag);
+  track.addEventListener('pointercancel', endDrag);
+
+  /* Centraliza o card da DevClub (flagship) ao carregar */
+  const centerFlagship = () => {
+    const flag = $('.proj-flagship', track);
+    if (!flag) return;
+    track.scrollLeft = flag.offsetLeft - (track.clientWidth - flag.clientWidth) / 2;
+  };
+  centerFlagship();
+  setTimeout(centerFlagship, 300);   /* reforço após layout estabilizar */
+
+  /* mShots devolve um GIF "gerando…" na primeira captura de cada URL.
+     Reconsulta em background e troca o src quando o JPEG real ficar pronto. */
+  $$('.proj-shot img', root).forEach(img => {
+    const src = img.src;
+    let tries = 0;
+    const probe = () => {
+      fetch(src, { method: 'GET', cache: 'no-store' })
+        .then(r => {
+          if ((r.headers.get('content-type') || '').includes('jpeg')) {
+            img.src = src + (src.includes('?') ? '&' : '?') + 'r=' + Date.now();
+          } else if (++tries < 8) {
+            setTimeout(probe, 6000);
+          }
+        })
+        .catch(() => {});
+    };
+    setTimeout(probe, 4000);
+  });
 }
 
 
