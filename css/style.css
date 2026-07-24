@@ -81,7 +81,7 @@
   z-index:99998;
   pointer-events:none;
   opacity:0;
-  transition: opacity .45s ease;
+  transition: opacity .35s ease;
 }
 .code-stack.is-active{ opacity: 1; }
 

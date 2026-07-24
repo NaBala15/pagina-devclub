@@ -103,24 +103,18 @@ function startCodeStack(heroEls) {
   requestAnimationFrame(() => stack.classList.add('is-active'));
   setTimeout(() => stack.classList.add('is-active'), 60);
 
-  /* 18 linhas de HTML — cobrem mais do hero, dão mais tempo pra apreciar */
+  /* 12 linhas essenciais — mostram a estrutura do hero rapidinho */
   const lines = [
-    '<span class="c">&lt;!-- HERO — cena 3D + conteúdo por cima --&gt;</span>',
+    '<span class="c">&lt;!-- HERO --&gt;</span>',
     '<span class="p">&lt;</span><span class="t">section</span> <span class="a">class</span><span class="p">=</span><span class="s">"hero"</span><span class="p">&gt;</span>',
-    '  <span class="p">&lt;</span><span class="t">spline-viewer</span> <span class="a">class</span><span class="p">=</span><span class="s">"hero-spline"</span>',
-    '    <span class="a">url</span><span class="p">=</span><span class="s">"prod.spline.design/dJqTIQ"</span>',
-    '    <span class="a">loading-anim-type</span><span class="p">=</span><span class="s">"none"</span><span class="p">&gt;</span>',
-    '  <span class="p">&lt;/</span><span class="t">spline-viewer</span><span class="p">&gt;</span>',
+    '  <span class="p">&lt;</span><span class="t">spline-viewer</span> <span class="a">url</span><span class="p">=</span><span class="s">"scene.splinecode"</span><span class="p">&gt;</span><span class="p">&lt;/</span><span class="t">spline-viewer</span><span class="p">&gt;</span>',
     '  <span class="p">&lt;</span><span class="t">div</span> <span class="a">class</span><span class="p">=</span><span class="s">"hero-veil"</span><span class="p">&gt;</span><span class="p">&lt;/</span><span class="t">div</span><span class="p">&gt;</span>',
     '  <span class="p">&lt;</span><span class="t">div</span> <span class="a">class</span><span class="p">=</span><span class="s">"wrap hero-content"</span><span class="p">&gt;</span>',
     '    <span class="p">&lt;</span><span class="t">div</span> <span class="a">class</span><span class="p">=</span><span class="s">"hero-badge"</span><span class="p">&gt;</span>origem em 2000<span class="p">&lt;/</span><span class="t">div</span><span class="p">&gt;</span>',
     '    <span class="p">&lt;</span><span class="t">h1</span> <span class="a">class</span><span class="p">=</span><span class="s">"hero-title"</span><span class="p">&gt;</span>',
     '      A escola que forma programador de verdade.',
     '    <span class="p">&lt;/</span><span class="t">h1</span><span class="p">&gt;</span>',
-    '    <span class="p">&lt;</span><span class="t">p</span> <span class="a">class</span><span class="p">=</span><span class="s">"lede"</span><span class="p">&gt;</span>Do Hello World à sua vaga.<span class="p">&lt;/</span><span class="t">p</span><span class="p">&gt;</span>',
-    '    <span class="p">&lt;</span><span class="t">div</span> <span class="a">class</span><span class="p">=</span><span class="s">"hero-cta"</span><span class="p">&gt;</span>',
-    '      <span class="p">&lt;</span><span class="t">a</span> <span class="a">href</span><span class="p">=</span><span class="s">"#formacoes"</span><span class="p">&gt;</span>Ver formações<span class="p">&lt;/</span><span class="t">a</span><span class="p">&gt;</span>',
-    '    <span class="p">&lt;/</span><span class="t">div</span><span class="p">&gt;</span>',
+    '    <span class="p">&lt;</span><span class="t">a</span> <span class="a">href</span><span class="p">=</span><span class="s">"#formacoes"</span><span class="p">&gt;</span>Ver formações<span class="p">&lt;/</span><span class="t">a</span><span class="p">&gt;</span>',
     '  <span class="p">&lt;/</span><span class="t">div</span><span class="p">&gt;</span>',
     '<span class="p">&lt;/</span><span class="t">section</span><span class="p">&gt;</span>',
   ];
@@ -136,17 +130,17 @@ function startCodeStack(heroEls) {
 
   /* Landing em ORDEM REVERSA: última source cai primeiro no bottom,
      primeira source cai por último no topo → montando de baixo pra cima */
-  const STAGGER = 240;
+  const STAGGER = 180;
   lineEls.forEach((el, sourceIdx) => {
     const dropOrder = lineEls.length - 1 - sourceIdx;
     setTimeout(() => el.classList.add('landed'), dropOrder * STAGGER);
   });
 
-  const STACK_TOTAL = (lineEls.length - 1) * STAGGER + 600;
+  const STACK_TOTAL = (lineEls.length - 1) * STAGGER + 550;
 
-  /* Revela o site em FAIXAS de baixo pra cima — 6 steps sincronizados
-     com o stack. Cada step aumenta o clip-path bottom em ~17% */
-  const STRIP_COUNT = 6;
+  /* Revela o site em FAIXAS de baixo pra cima — 5 steps sincronizados
+     com o stack (menos steps agora que o stack é mais curto) */
+  const STRIP_COUNT = 5;
   const STRIP_DELAY = Math.floor(STACK_TOTAL / (STRIP_COUNT + 1));
   for (let s = 1; s <= STRIP_COUNT; s++) {
     setTimeout(() => {
@@ -155,20 +149,22 @@ function startCodeStack(heroEls) {
     }, s * STRIP_DELAY);
   }
 
-  /* Montagem do hero começa na metade do stack */
-  const HERO_START = Math.round(STACK_TOTAL * 0.5);
-  const HERO_STAGGER = 220;
+  /* Montagem do hero começa cedo (30% do stack) — assim já está pronto
+     quando o fade do stack começa, sem gap "parado na frente" */
+  const HERO_START = Math.round(STACK_TOTAL * 0.3);
+  const HERO_STAGGER = 200;
   heroEls.forEach((el, i) => {
     setTimeout(() => el.classList.add('is-assembled'), HERO_START + i * HERO_STAGGER);
   });
 
-  const HERO_DONE = HERO_START + (heroEls.length - 1) * HERO_STAGGER + 600;
-  const FADE_OUT_AT = Math.max(STACK_TOTAL, HERO_DONE) + 250;
+  const HERO_DONE = HERO_START + (heroEls.length - 1) * HERO_STAGGER + 500;
+  /* Fade dispara imediatamente quando a última linha cai — sem buffer extra */
+  const FADE_OUT_AT = Math.max(STACK_TOTAL, HERO_DONE);
 
-  /* Fade out do stack quando tudo terminou */
+  /* Fade out do stack: rápido (350ms) pra liberar hero logo */
   setTimeout(() => {
     stack.classList.remove('is-active');
-    setTimeout(() => stack.remove(), 550);
+    setTimeout(() => stack.remove(), 350);
   }, FADE_OUT_AT);
 
   /* Safety net: garante hero visível mesmo se algum timer falhar */
