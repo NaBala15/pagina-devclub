@@ -412,6 +412,24 @@ footer{
   font-size: 0.72rem;
 }
 
+/* Assinatura do criador */
+.status-bar .signature{
+  color: var(--text-dim);
+}
+.status-bar .signature a{
+  color: var(--lime);
+  font-weight: 700;
+  text-decoration: none;
+  padding-bottom: 1px;
+  border-bottom: 1px solid rgba(198,255,61,0.35);
+  transition: color .2s, border-color .2s, text-shadow .2s;
+}
+.status-bar .signature a:hover{
+  color: var(--lime-hi);
+  border-bottom-color: var(--lime);
+  text-shadow: 0 0 12px rgba(198,255,61,0.6);
+}
+
 /* Créditos e disclaimer — só aparece no fim, discreto mas presente */
 .credits{
   border-top: 1px dashed var(--line);
