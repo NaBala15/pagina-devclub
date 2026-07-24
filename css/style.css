@@ -341,7 +341,9 @@ header{
 }
 .navbar{
   display:flex; align-items:center; justify-content:space-between; gap:24px;
-  padding:14px 32px; max-width:var(--maxw); margin:0 auto;
+  padding:14px 20px 14px 32px;    /* right menor: CTA sobra mais pra direita */
+  max-width:1320px;               /* mais largo que o resto (1240) pras 8 tabs caberem */
+  margin:0 auto;
 }
 .brand{
   font-family:var(--display); font-weight:800; font-size:1.2rem;
@@ -360,7 +362,11 @@ header{
   0%, 100% { opacity: 1;    text-shadow: 0 0 8px  rgba(198,255,61,0.55); }
   50%      { opacity: 0.75; text-shadow: 0 0 18px rgba(198,255,61,0.95); }
 }
-.tabs{ display:flex; gap:2px; overflow-x:auto; scrollbar-width:none; }
+.tabs{
+  display:flex; gap:2px; overflow-x:auto; scrollbar-width:none;
+  margin-right:32px;              /* folga entre tabs e o botão CTA */
+  min-width:0; flex:0 1 auto;     /* pode encolher, NÃO cresce (senão gruda na CTA) */
+}
 .tabs::-webkit-scrollbar{ display:none; }
 .tabs a{
   font-family:var(--mono); font-size:0.8rem; white-space:nowrap;
