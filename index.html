@@ -8,7 +8,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&family=Inter:wght@400;500;600&family=Press+Start+2P&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="css/style.css?v=2026-navspace4">
+<link rel="stylesheet" href="css/style.css?v=2026-projetos">
 <script type="module" src="https://unpkg.com/@splinetool/viewer@1.9.28/build/spline-viewer.js"></script>
 </head>
 <body>
@@ -337,6 +337,101 @@
           <p class="log-quote">"Comecei achando que era tarde. A DevClub não perguntou minha idade, só meu código."</p>
         </div>
       </div>
+
+      <!-- Projetos dos alunos: carrossel -->
+      <div class="proj-head" data-reveal>
+        <span class="eyebrow">projetos.deploy</span>
+        <h3 class="proj-title">Projetos que <em>saíram daqui</em></h3>
+        <p class="lede">Primeira página, primeiro deploy, primeiro orgulho. Alguns dos trabalhos feitos durante as formações.</p>
+      </div>
+
+      <div class="proj-carousel" data-reveal id="projCarousel">
+        <div class="proj-track" id="projTrack" tabindex="0" aria-label="galeria de projetos dos alunos">
+
+          <article class="proj-card proj-flagship">
+            <span class="proj-ribbon">★ carro-chefe</span>
+            <div class="proj-window">
+              <div class="proj-chrome"><span></span><span></span><span></span><i>devclub-26anos.vercel.app</i></div>
+              <div class="scr scr-devclub"><i></i><i></i><i></i></div>
+            </div>
+            <div class="proj-meta">
+              <div class="proj-name">DevClub — 26 anos</div>
+              <div class="proj-author">JeffDev · <em>minha primeira página como programador</em> — é esta que você está navegando</div>
+              <div class="tag-row"><span class="tag">HTML</span><span class="tag">CSS</span><span class="tag">JavaScript</span><span class="tag">Spline 3D</span></div>
+            </div>
+          </article>
+
+          <article class="proj-card">
+            <div class="proj-window">
+              <div class="proj-chrome"><span></span><span></span><span></span><i>pizzaria-dobairro.com.br</i></div>
+              <div class="scr scr-pizza"><i></i><i></i><i></i></div>
+            </div>
+            <div class="proj-meta">
+              <div class="proj-name">Pizzaria do Bairro</div>
+              <div class="proj-author">Marina Costa · cardápio online com pedido pelo WhatsApp</div>
+              <div class="tag-row"><span class="tag">HTML</span><span class="tag">CSS</span><span class="tag">JavaScript</span></div>
+            </div>
+          </article>
+
+          <article class="proj-card">
+            <div class="proj-window">
+              <div class="proj-chrome"><span></span><span></span><span></span><i>thiagoalmeida.dev</i></div>
+              <div class="scr scr-portfolio"><i></i><i></i><i></i></div>
+            </div>
+            <div class="proj-meta">
+              <div class="proj-name">Portfólio pessoal</div>
+              <div class="proj-author">Thiago Almeida · o portfólio que abriu a vaga na Magalu</div>
+              <div class="tag-row"><span class="tag">React</span><span class="tag">CSS</span></div>
+            </div>
+          </article>
+
+          <article class="proj-card">
+            <div class="proj-window">
+              <div class="proj-chrome"><span></span><span></span><span></span><i>findash.app</i></div>
+              <div class="scr scr-dash"><i></i><i></i><i></i></div>
+            </div>
+            <div class="proj-meta">
+              <div class="proj-name">FinDash</div>
+              <div class="proj-author">Bruna Ferreira · dashboard de finanças pessoais com gráficos</div>
+              <div class="tag-row"><span class="tag">JavaScript</span><span class="tag">Chart.js</span><span class="tag">APIs</span></div>
+            </div>
+          </article>
+
+          <article class="proj-card">
+            <div class="proj-window">
+              <div class="proj-chrome"><span></span><span></span><span></span><i>modavila.shop</i></div>
+              <div class="scr scr-loja"><i></i><i></i><i></i></div>
+            </div>
+            <div class="proj-meta">
+              <div class="proj-name">Moda Vila</div>
+              <div class="proj-author">Carlos Menezes · vitrine da loja da esposa, primeira venda em 3 dias</div>
+              <div class="tag-row"><span class="tag">HTML</span><span class="tag">CSS</span><span class="tag">Grid</span></div>
+            </div>
+          </article>
+
+          <article class="proj-card">
+            <div class="proj-window">
+              <div class="proj-chrome"><span></span><span></span><span></span><i>saborcaseiro.blog</i></div>
+              <div class="scr scr-blog"><i></i><i></i><i></i></div>
+            </div>
+            <div class="proj-meta">
+              <div class="proj-name">Sabor Caseiro</div>
+              <div class="proj-author">Ana Paula Reis · blog de receitas da avó, tema claro feito à mão</div>
+              <div class="tag-row"><span class="tag">HTML</span><span class="tag">CSS</span><span class="tag">Flexbox</span></div>
+            </div>
+          </article>
+
+        </div>
+
+        <div class="proj-nav">
+          <button class="proj-arrow" id="projPrev" aria-label="Projeto anterior">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/></svg>
+          </button>
+          <button class="proj-arrow" id="projNext" aria-label="Próximo projeto">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/></svg>
+          </button>
+        </div>
+      </div>
     </div>
   </section>
 
@@ -612,6 +707,6 @@
   </div>
 </footer>
 
-<script src="js/script.js?v=2026-quickstack"></script>
+<script src="js/script.js?v=2026-projetos"></script>
 </body>
 </html>

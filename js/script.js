@@ -523,6 +523,57 @@ function initCardStack() {
 
 
 /* ---------------------------------------------------------------------
+   9.5. PROJETOS DOS ALUNOS — carrossel scroll-snap
+   --------------------------------------------------------------------- */
+function initProjCarousel(){
+  const root  = $('#projCarousel');
+  if (!root) return;
+  const track = $('#projTrack', root);
+  const prev  = $('#projPrev',  root);
+  const next  = $('#projNext',  root);
+  const cards = $$('.proj-card', root);
+  if (!cards.length) return;
+
+  const step = () => cards[0].getBoundingClientRect().width + 22; /* card + gap */
+
+  const scrollByCard = (dir) => {
+    const maxScroll = track.scrollWidth - track.clientWidth;
+    let target = track.scrollLeft + dir * step();
+    /* loop: passou do fim volta pro começo e vice-versa */
+    if (target > maxScroll + 10) target = 0;
+    if (target < -10) target = maxScroll;
+    track.scrollTo({ left: target, behavior: 'smooth' });
+  };
+
+  prev.addEventListener('click', () => { scrollByCard(-1); resetAuto(); });
+  next.addEventListener('click', () => { scrollByCard( 1); resetAuto(); });
+
+  /* setas do teclado quando o track tem foco */
+  track.addEventListener('keydown', (e) => {
+    if (e.key === 'ArrowLeft')  { e.preventDefault(); scrollByCard(-1); resetAuto(); }
+    if (e.key === 'ArrowRight') { e.preventDefault(); scrollByCard( 1); resetAuto(); }
+  });
+
+  /* auto-advance, pausa com mouse em cima ou aba escondida */
+  let hovering = false;
+  let autoTimer = null;
+  const startAuto = () => {
+    if (REDUCED) return;
+    autoTimer = setInterval(() => {
+      if (!hovering && !document.hidden) scrollByCard(1);
+    }, 4000);
+  };
+  const resetAuto = () => {
+    if (autoTimer) clearInterval(autoTimer);
+    startAuto();
+  };
+  root.addEventListener('mouseenter', () => { hovering = true; });
+  root.addEventListener('mouseleave', () => { hovering = false; });
+  startAuto();
+}
+
+
+/* ---------------------------------------------------------------------
    10. TUTORES — Circular Animated Testimonials (vanilla port)
        Adaptado de https://codepen.io/Northstrix/pen/QwWoYzZ
    --------------------------------------------------------------------- */
@@ -747,6 +798,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initTimeline();
   initCountdown();
   initCardStack();
+  initProjCarousel();
   initTutoresCarousel();
   initBgFundo();
 });

@@ -876,6 +876,153 @@ footer{
 .log-who b{ color:var(--text); }
 .log-quote{ margin:0; font-style:italic; color:var(--text-dim); font-size:0.94rem; line-height:1.6; }
 
+/* --- Projetos dos alunos (carrossel) --------------------------------- */
+.proj-head{ margin:72px 0 28px; max-width:720px; }
+.proj-title{
+  font-family:var(--display); font-weight:800;
+  font-size:clamp(1.4rem, 2.6vw, 2rem);
+  letter-spacing:-0.01em; margin:0;
+}
+.proj-title em{ font-style:normal; color:var(--lime); }
+.proj-head .lede{ font-size:0.98rem; margin-top:10px; }
+
+.proj-carousel{ position:relative; }
+.proj-track{
+  display:flex; gap:22px;
+  overflow-x:auto;
+  scroll-snap-type:x mandatory;
+  scrollbar-width:none;
+  padding:14px 4px 20px;
+  outline:none;
+}
+.proj-track::-webkit-scrollbar{ display:none; }
+
+.proj-card{
+  flex:0 0 min(380px, 82vw);
+  scroll-snap-align:start;
+  background:var(--bg-1);
+  border:1px solid var(--line);
+  border-radius:var(--radius);
+  overflow:hidden;
+  position:relative;
+  transition:border-color .25s, transform .25s, box-shadow .25s;
+}
+.proj-card:hover{
+  border-color:var(--lime);
+  transform:translateY(-4px);
+  box-shadow:0 20px 60px -20px rgba(198,255,61,0.25);
+}
+.proj-flagship{
+  border-color:rgba(198,255,61,0.5);
+  box-shadow:0 0 32px -12px rgba(198,255,61,0.4);
+}
+.proj-ribbon{
+  position:absolute; top:12px; right:12px; z-index:3;
+  font-family:var(--mono); font-size:0.68rem; font-weight:700;
+  background:var(--lime); color:#05060a;
+  padding:4px 10px; border-radius:999px;
+  box-shadow:0 0 16px rgba(198,255,61,0.6);
+}
+
+/* Janela de browser fake */
+.proj-window{ border-bottom:1px solid var(--line); }
+.proj-chrome{
+  display:flex; align-items:center; gap:5px;
+  padding:9px 12px;
+  background:var(--bg-2);
+  border-bottom:1px solid var(--line);
+}
+.proj-chrome span{ width:8px; height:8px; border-radius:50%; background:var(--line-hi); }
+.proj-chrome i{
+  font-family:var(--mono); font-style:normal; font-size:0.66rem;
+  color:var(--text-mute);
+  background:var(--bg); border:1px solid var(--line); border-radius:5px;
+  padding:2px 10px; margin-left:8px;
+  white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
+  flex:1; min-width:0;
+}
+
+/* Mini-mockups (telas desenhadas em CSS puro) */
+.scr{
+  position:relative;
+  height:170px;
+  overflow:hidden;
+  display:block;
+}
+.scr::before, .scr::after, .scr i{ content:""; position:absolute; display:block; border-radius:4px; }
+
+/* devclub: dark + hero lime + stats */
+.scr-devclub{ background:#05060a; }
+.scr-devclub::before{ top:12px; left:16px; right:16px; height:8px; background:rgba(255,255,255,0.08); }
+.scr-devclub i:nth-of-type(1){ top:36px; left:16px; width:55%; height:26px; background:linear-gradient(90deg, #c6ff3d, rgba(198,255,61,0.35)); }
+.scr-devclub i:nth-of-type(2){ top:72px; left:16px; width:38%; height:9px; background:rgba(255,255,255,0.16); }
+.scr-devclub i:nth-of-type(3){ top:96px; left:16px; width:26%; height:16px; border-radius:999px; background:#c6ff3d; box-shadow:0 0 14px rgba(198,255,61,0.7); }
+.scr-devclub::after{ bottom:14px; left:16px; right:16px; height:34px; background:rgba(198,255,61,0.08); border:1px solid rgba(198,255,61,0.3); }
+
+/* pizzaria: quente */
+.scr-pizza{ background:#1c0e08; }
+.scr-pizza::before{ top:0; left:0; right:0; height:44px; background:linear-gradient(120deg, #ff6b35, #d43516); }
+.scr-pizza i:nth-of-type(1){ top:58px; left:16px; width:44%; height:12px; background:#ffd7a8; }
+.scr-pizza i:nth-of-type(2){ top:84px; left:16px; width:30%; height:52px; background:#2e1810; border:1px solid #5a2c18; }
+.scr-pizza i:nth-of-type(3){ top:84px; left:calc(30% + 28px); width:30%; height:52px; background:#2e1810; border:1px solid #5a2c18; }
+.scr-pizza::after{ top:84px; right:16px; width:22%; height:52px; background:#25a244; border-radius:8px; }
+
+/* portfólio: violeta minimal */
+.scr-portfolio{ background:#0d0a1a; }
+.scr-portfolio::before{ top:22px; left:16px; width:52px; height:52px; border-radius:50%; background:linear-gradient(135deg, #8b6cff, #4c33b8); }
+.scr-portfolio i:nth-of-type(1){ top:28px; left:84px; width:45%; height:13px; background:rgba(255,255,255,0.85); }
+.scr-portfolio i:nth-of-type(2){ top:50px; left:84px; width:34%; height:8px; background:#8b6cff; }
+.scr-portfolio i:nth-of-type(3){ top:96px; left:16px; width:40%; height:48px; background:#171130; border:1px solid #2c2255; }
+.scr-portfolio::after{ top:96px; right:16px; width:40%; height:48px; background:#171130; border:1px solid #2c2255; }
+
+/* dashboard: ciano com barras */
+.scr-dash{ background:#06131c; }
+.scr-dash::before{ top:0; left:0; bottom:0; width:52px; background:#0a1e2b; }
+.scr-dash i:nth-of-type(1){ top:16px; left:68px; width:32%; height:10px; background:rgba(255,255,255,0.5); }
+.scr-dash i:nth-of-type(2){ bottom:22px; left:68px; width:14px; height:52px; background:#4fe0ff; box-shadow:26px 12px 0 #2a97b8, 52px -8px 0 #4fe0ff, 78px 20px 0 #1a6a85, 104px 2px 0 #4fe0ff; border-radius:3px 3px 0 0; }
+.scr-dash i:nth-of-type(3){ top:16px; right:16px; width:56px; height:56px; border-radius:50%; border:8px solid #4fe0ff; border-left-color:#12303f; }
+.scr-dash::after{ display:none; }
+
+/* loja: grid de produtos coral */
+.scr-loja{ background:#170d10; }
+.scr-loja::before{ top:0; left:0; right:0; height:32px; background:#ff6b6b; }
+.scr-loja i:nth-of-type(1){ top:46px; left:16px; width:28%; height:52px; background:#2b181d; border:1px solid #57303a; }
+.scr-loja i:nth-of-type(2){ top:46px; left:calc(28% + 26px); width:28%; height:52px; background:#2b181d; border:1px solid #57303a; }
+.scr-loja i:nth-of-type(3){ top:46px; right:16px; width:28%; height:52px; background:#2b181d; border:1px solid #57303a; }
+.scr-loja::after{ bottom:16px; left:16px; width:38%; height:16px; border-radius:999px; background:#ff6b6b; }
+
+/* blog: tema claro (contraste no meio dos escuros) */
+.scr-blog{ background:#f6f1e7; }
+.scr-blog::before{ top:16px; left:16px; right:16px; height:16px; background:#c94f2e; }
+.scr-blog i:nth-of-type(1){ top:48px; left:16px; width:70%; height:8px; background:#3d3428; }
+.scr-blog i:nth-of-type(2){ top:64px; left:16px; width:60%; height:8px; background:#8a7d68; }
+.scr-blog i:nth-of-type(3){ top:80px; left:16px; width:66%; height:8px; background:#8a7d68; }
+.scr-blog::after{ top:48px; right:16px; width:22%; height:64px; background:#dccdb2; border:1px solid #b8a888; }
+
+/* Meta do projeto */
+.proj-meta{ padding:18px 20px 20px; }
+.proj-name{ font-family:var(--display); font-weight:700; font-size:1.05rem; }
+.proj-author{ font-size:0.85rem; color:var(--text-dim); margin:6px 0 12px; line-height:1.5; }
+.proj-author em{ color:var(--lime); font-style:normal; }
+.proj-meta .tag-row{ margin-top:0; padding-left:0; }
+
+/* Setas */
+.proj-nav{ display:flex; justify-content:center; gap:12px; margin-top:6px; }
+.proj-arrow{
+  width:2.4rem; height:2.4rem; border-radius:50%;
+  background:var(--bg-2); border:1px solid var(--line);
+  color:var(--text-dim);
+  display:flex; align-items:center; justify-content:center;
+  cursor:pointer;
+  transition:background .25s, border-color .25s, color .25s, box-shadow .25s, transform .15s;
+}
+.proj-arrow:hover{
+  background:var(--lime); border-color:var(--lime); color:#05060a;
+  box-shadow:0 0 20px rgba(198,255,61,0.45);
+}
+.proj-arrow:active{ transform:scale(0.95); }
+.proj-arrow svg{ width:1.15rem; height:1.15rem; fill:currentColor; }
+
 /* --- Empresas (marquee) --------------------------------------------- */
 .marquee{
   overflow:hidden;
