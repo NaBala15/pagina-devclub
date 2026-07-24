@@ -528,11 +528,22 @@ footer{
   display:inline-flex; align-items:center; gap:10px;
   font-family:var(--mono); font-size:0.78rem; color:var(--lime);
   background:var(--lime-soft); border:1px solid rgba(198,255,61,0.35);
-  padding:7px 14px; border-radius:999px; margin-bottom:32px;
+  padding:7px 14px 7px 12px; border-radius:999px; margin-bottom:32px;
 }
-.hero-badge::before{
-  content:""; width:6px; height:6px; border-radius:50%;
-  background:var(--lime); box-shadow:0 0 10px var(--lime);
+.hero-badge .cake-icon{
+  width: 20px; height: 20px;
+  flex: 0 0 20px;
+  stroke: var(--lime);
+  fill: none;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  filter: drop-shadow(0 0 6px rgba(198,255,61,0.55));
+  animation: cakeGlow 2s ease-in-out infinite;
+}
+@keyframes cakeGlow{
+  0%, 100% { filter: drop-shadow(0 0 4px rgba(198,255,61,0.4)); }
+  50%      { filter: drop-shadow(0 0 12px rgba(198,255,61,0.85)); }
 }
 
 /* Wordmark: título grande, palavras chave em lime */
