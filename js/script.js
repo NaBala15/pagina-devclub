@@ -602,25 +602,6 @@ function initProjCarousel(){
   };
   centerFlagship();
   setTimeout(centerFlagship, 300);   /* reforço após layout estabilizar */
-
-  /* mShots devolve um GIF "gerando…" na primeira captura de cada URL.
-     Reconsulta em background e troca o src quando o JPEG real ficar pronto. */
-  $$('.proj-shot img', root).forEach(img => {
-    const src = img.src;
-    let tries = 0;
-    const probe = () => {
-      fetch(src, { method: 'GET', cache: 'no-store' })
-        .then(r => {
-          if ((r.headers.get('content-type') || '').includes('jpeg')) {
-            img.src = src + (src.includes('?') ? '&' : '?') + 'r=' + Date.now();
-          } else if (++tries < 8) {
-            setTimeout(probe, 6000);
-          }
-        })
-        .catch(() => {});
-    };
-    setTimeout(probe, 4000);
-  });
 }
 
 
