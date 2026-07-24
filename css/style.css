@@ -530,6 +530,18 @@ footer{
   background:var(--lime-soft); border:1px solid rgba(198,255,61,0.35);
   padding:7px 14px 7px 12px; border-radius:999px; margin-bottom:32px;
 }
+.hero-badge .cake-link{
+  display: inline-flex;
+  align-items: center;
+  padding: 0;
+  cursor: pointer;
+  border-radius: 6px;
+  transition: transform .25s cubic-bezier(.34,1.56,.64,1), filter .3s;
+}
+.hero-badge .cake-link:hover{
+  transform: scale(1.25) rotate(-6deg);
+  filter: drop-shadow(0 0 12px rgba(198,255,61,0.9));
+}
 .hero-badge .cake-icon{
   width: 20px; height: 20px;
   flex: 0 0 20px;
