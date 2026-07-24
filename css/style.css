@@ -444,16 +444,36 @@ footer{
   text-shadow: 0 0 12px rgba(198,255,61,0.6);
 }
 
-/* Créditos e disclaimer — só aparece no fim, discreto mas presente */
+/* Créditos e disclaimer — colapsados: só o "// créditos" visível,
+   conteúdo abre no clique */
 .credits{
   border-top: 1px dashed var(--line);
   margin-top: 20px;
-  padding: 20px 32px 8px;
+  padding: 14px 32px 8px;
   font-family: var(--mono);
   font-size: 0.76rem;
   color: var(--text-mute);
   line-height: 1.7;
 }
+.credits summary{
+  list-style: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  user-select: none;
+  padding: 4px 0;
+}
+.credits summary::-webkit-details-marker{ display: none; }
+.credits summary:hover .c{ color: var(--lime); }
+.credits-toggle{
+  color: var(--lime);
+  font-size: 1rem;
+  line-height: 1;
+  transition: transform .25s;
+}
+.credits[open] .credits-toggle{ transform: rotate(45deg); }
+.credits[open] summary{ margin-bottom: 10px; }
 .credits p{ margin: 0 0 10px; max-width: 900px; }
 .credits p:last-child{ margin-bottom: 0; }
 .credits .c{ color: var(--comment); }
