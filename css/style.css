@@ -347,10 +347,25 @@ header{
   font-family:var(--display); font-weight:800; font-size:1.2rem;
   display:flex; align-items:center; gap:10px;
 }
-.brand .dot{
-  width:10px; height:10px; border-radius:50%; background:var(--lime);
-  box-shadow:0 0 12px var(--lime);
-  animation:pulseDot 2s ease-in-out infinite;
+.brand-logo{
+  width: 26px; height: 26px;
+  flex: 0 0 26px;               /* não deixa o flex colapsar */
+  display: block;
+  border-radius: 4px;
+  overflow: hidden;
+  filter: drop-shadow(0 0 8px rgba(198,255,61,0.5));
+  animation: brandPulse 2.4s ease-in-out infinite;
+  transition: filter .3s, transform .3s;
+}
+.brand-logo .bg{ fill: var(--lime); }
+.brand-logo .fg{ fill: #05060a; }
+.brand:hover .brand-logo{
+  transform: scale(1.08) rotate(-3deg);
+  filter: drop-shadow(0 0 16px rgba(198,255,61,0.9));
+}
+@keyframes brandPulse{
+  0%, 100% { filter: drop-shadow(0 0 8px rgba(198,255,61,0.5)); }
+  50%      { filter: drop-shadow(0 0 16px rgba(198,255,61,0.85)); }
 }
 .tabs{ display:flex; gap:2px; overflow-x:auto; scrollbar-width:none; }
 .tabs::-webkit-scrollbar{ display:none; }
