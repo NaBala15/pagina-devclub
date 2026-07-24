@@ -404,6 +404,45 @@ footer{
 .status-links{ display:flex; gap:18px; }
 .status-links a{ transition:color .2s; }
 .status-links a:hover{ color:var(--lime); }
+.status-bar .concept-flag{
+  color: var(--warn);
+  padding: 2px 8px;
+  border: 1px solid rgba(255,184,77,0.35);
+  border-radius: 4px;
+  font-size: 0.72rem;
+}
+
+/* Créditos e disclaimer — só aparece no fim, discreto mas presente */
+.credits{
+  border-top: 1px dashed var(--line);
+  margin-top: 20px;
+  padding: 20px 32px 8px;
+  font-family: var(--mono);
+  font-size: 0.76rem;
+  color: var(--text-mute);
+  line-height: 1.7;
+}
+.credits p{ margin: 0 0 10px; max-width: 900px; }
+.credits p:last-child{ margin-bottom: 0; }
+.credits .c{ color: var(--comment); }
+.credits a{
+  color: var(--text-dim);
+  text-decoration: underline;
+  text-decoration-color: rgba(198,255,61,0.3);
+  text-underline-offset: 3px;
+  transition: color .2s, text-decoration-color .2s;
+}
+.credits a:hover{
+  color: var(--lime);
+  text-decoration-color: var(--lime);
+}
+.credits .disclaimer{
+  color: var(--text-mute);
+  font-style: italic;
+  padding-top: 6px;
+  border-top: 1px dashed rgba(255,255,255,0.05);
+}
+.credits .disclaimer b{ color: var(--warn); font-style: normal; }
 
 
 /* ---------------------------------------------------------------------
