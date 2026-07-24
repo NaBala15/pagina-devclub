@@ -1,0 +1,581 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DevClub — 26 anos formando desenvolvedores</title>
+<meta name="description" content="Escola de programação DevClub — 26 anos ensinando gente comum a virar programador de verdade. Frontend, Backend, Fullstack e Carreira, com tutor humano.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&family=Inter:wght@400;500;600&family=Press+Start+2P&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css?v=2026-historia">
+<script type="module" src="https://unpkg.com/@splinetool/viewer@1.9.28/build/spline-viewer.js"></script>
+</head>
+<body>
+
+<!-- ============================================================
+     INTRO — PRESS START: overlay pixel-art antes de tudo
+     ============================================================ -->
+<div id="pressStart" class="press-start" role="dialog" aria-label="Pressione qualquer tecla para começar">
+  <div class="ps-title">PRESS<br>START</div>
+  <div class="ps-hint">▸ tecle qualquer coisa</div>
+</div>
+
+<!-- Fundo animado (canvas em iframe, atrás de tudo) -->
+<iframe id="bgFundo" class="bg-fundo" src="referencias/fundo.html" title="fundo animado" aria-hidden="true" tabindex="-1"></iframe>
+
+<div class="announce">
+  🎉 <strong>26 anos</strong> ensinando gente a programar — da lan house dos anos 2000 à sua próxima vaga.
+  <a href="#26anos">Ver a história →</a>
+</div>
+
+<header>
+  <div class="navbar">
+    <div class="brand"><span class="dot"></span>DevClub</div>
+    <nav class="tabs" aria-label="navegação principal">
+      <a href="#top">index.tsx</a>
+      <a href="#quemsomos">quem-somos.md</a>
+      <a href="#formacoes">formacoes.json</a>
+      <a href="#comofunciona">como-funciona.sh</a>
+      <a href="#alunos">alunos.log</a>
+      <a href="#tutores">tutores.team</a>
+      <a href="#faq">faq.help</a>
+      <a href="#26anos" class="tab-highlight">26anos.git</a>
+    </nav>
+    <a href="#cta" class="nav-cta">$ começar</a>
+  </div>
+</header>
+
+<main id="top">
+
+  <!-- ============================================================
+       HERO — cena 3D Spline + conteúdo por cima
+       ============================================================ -->
+  <section class="hero">
+    <!-- Cena 3D — 1 viewer só, zoom agressivo pra cubos preencherem lado a lado
+         e mouse interagir com a cena como uma coisa só -->
+    <spline-viewer class="hero-spline"
+      url="https://prod.spline.design/dJqTIQ-tE3ULUPMi/scene.splinecode"
+      loading-anim-type="none"
+      aria-hidden="true"></spline-viewer>
+
+    <!-- Véu de gradiente pra contraste do texto -->
+    <div class="hero-veil" aria-hidden="true"></div>
+
+    <div class="wrap hero-content" id="heroContent">
+      <div class="hero-badge">origem em 2000 · DevClub oficial desde 2015</div>
+
+      <h1 class="hero-title">
+        A escola que forma <em>programador de verdade</em> há 26 anos.
+      </h1>
+
+      <div class="hero-sub">
+        <p class="lede">
+          Do primeiro <span class="mono">Hello World</span> ao primeiro emprego em tech —
+          sem enrolação, com tutor humano ao seu lado e projeto real no portfólio.
+        </p>
+      </div>
+
+      <div class="hero-cta">
+        <a href="#formacoes" class="btn btn-primary">
+          Ver formações <span class="arrow">→</span>
+        </a>
+        <a href="#cta" class="btn btn-ghost">Falar com a gente</a>
+      </div>
+
+      <div class="hero-proof">
+        <div class="avatar-stack" aria-hidden="true">
+          <span style="background:var(--violet)">MC</span>
+          <span style="background:var(--warn)">TA</span>
+          <span style="background:var(--info)">BF</span>
+          <span style="background:var(--coral)">CM</span>
+          <span style="background:var(--lime)">+</span>
+        </div>
+        <p><strong>+42.300 alunos</strong> já passaram pelo nosso terminal</p>
+      </div>
+
+    </div>
+  </section>
+
+
+  <!-- ============================================================
+       STATS STRIP — faixa sempre visível, alunosFormados ao vivo
+       ============================================================ -->
+  <section class="stats-strip" aria-label="estatísticas em tempo real">
+    <div class="wrap">
+      <div class="console" data-reveal>
+        <div class="console-head">
+          <span class="dot"></span><span class="dot"></span><span class="dot"></span>
+          <span class="title">$ devclub --stats --watch</span>
+          <span class="live-flag" aria-label="atualizando ao vivo"><span class="live-dot"></span>ao vivo</span>
+        </div>
+        <div class="console-body">
+          <div class="stat">
+            <div class="k">alunosFormados</div>
+            <div class="v"><span data-count="42300" data-suffix="+" data-live>0</span></div>
+          </div>
+          <div class="stat">
+            <div class="k">taxaEmpregabilidade</div>
+            <div class="v"><span data-count="89" data-suffix="%">0</span></div>
+          </div>
+          <div class="stat">
+            <div class="k">empresasParceiras</div>
+            <div class="v"><span data-count="340" data-suffix="+">0</span></div>
+          </div>
+          <div class="stat">
+            <div class="k">anosDeHistoria</div>
+            <div class="v"><span data-count="26">0</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ============================================================
+       QUEM SOMOS
+       ============================================================ -->
+  <section class="section" id="quemsomos">
+    <div class="wrap">
+      <div class="section-head" data-reveal>
+        <span class="eyebrow">quem-somos.md</span>
+        <h2>Ensinando gente comum a virar programador <em>de verdade</em> — desde uma lan house dos anos 2000</h2>
+      </div>
+
+      <div class="quemsomos-grid">
+        <div class="code-block" data-reveal>
+          <p><span class="c">// nossa história</span><br>
+          No começo dos anos 2000, <b>Rodolfo Mori</b> descobriu programação numa lan house de bairro — dessas que cobravam por hora e vendiam Coca em lata. Estudava em livros, apostilas e revistas de informática, e aos poucos começou a ensinar o que aprendia pros outros jovens que apareciam por lá, usando um PC do próprio salão.</p>
+
+          <p><span class="c">// virando estrutura</span><br>
+          Em 2009, com o que juntou dando aula, Rodolfo montou a própria estrutura — computadores, apostilas e sala pra chamar de sua. Em <b>2015</b> esse projeto virou empresa: nasceu a DevClub, com o propósito de deixar programação acessível e formar gente pro mercado de tecnologia.</p>
+
+          <p><span class="c">// como ensinamos</span><br>
+          Aula prática, projeto real e tutor humano respondendo dúvidas. Nada de vídeo solto: aqui você constrói, erra, conserta e aprende — mesma cabeça daquela lan house, agora rodando pra milhares de alunos.</p>
+
+          <p><span class="c">// pra quem é</span><br>
+          Pra quem nunca escreveu uma linha de código e pra quem já programa e quer destravar a próxima etapa da carreira. Não pedimos diploma — pedimos vontade de aprender. É a mesma regra do começo.</p>
+
+          <div class="tag-row">
+            <span class="tag">origem em 2000</span>
+            <span class="tag">DevClub desde 2015</span>
+            <span class="tag">100% prática</span>
+            <span class="tag">tutoria humana</span>
+          </div>
+        </div>
+
+        <ul class="mini-timeline" data-reveal>
+          <li><span class="yr">2000</span><span class="ev">Rodolfo descobre programação numa lan house</span></li>
+          <li><span class="yr">2003</span><span class="ev">Primeiras aulas informais, num PC da lan house</span></li>
+          <li><span class="yr">2009</span><span class="ev">Monta estrutura própria de ensino</span></li>
+          <li><span class="yr">2015</span><span class="ev">Nasce oficialmente a DevClub</span></li>
+          <li><span class="yr">2026</span><span class="ev">+42.000 formados, 340+ empresas parceiras</span></li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ============================================================
+       FORMAÇÕES
+       ============================================================ -->
+  <section class="section" id="formacoes">
+    <div class="wrap">
+      <div class="section-head" data-reveal>
+        <span class="eyebrow">formacoes.json</span>
+        <h2>Escolha o pacote e instale a <em>próxima etapa</em> da sua carreira</h2>
+        <p class="lede">Trilhas completas, com projeto real no portfólio e tutor acompanhando cada entrega.</p>
+      </div>
+
+      <div class="cardstack" data-reveal id="formacoesStack">
+        <div class="cardstack-stage" tabindex="0" role="listbox" aria-label="formações da DevClub">
+          <div class="cs-card" data-idx="0">
+            <div class="pkg-card">
+              <div class="pkg-top"><span class="pkg-name">@devclub/frontend</span><span class="pkg-ver">v2026.3</span></div>
+              <p class="pkg-desc">HTML, CSS, JavaScript e React do zero ao primeiro layout em produção.</p>
+              <div class="tag-row">
+                <span class="tag">HTML</span><span class="tag">CSS</span><span class="tag">JavaScript</span><span class="tag">React</span>
+              </div>
+              <div class="pkg-meta"><span>180h</span><span class="pkg-badge">8.2k instalações/mês</span></div>
+            </div>
+          </div>
+
+          <div class="cs-card" data-idx="1">
+            <div class="pkg-card">
+              <div class="pkg-top"><span class="pkg-name">@devclub/backend</span><span class="pkg-ver">v2026.2</span></div>
+              <p class="pkg-desc">Node.js, banco de dados e APIs que aguentam tráfego de verdade.</p>
+              <div class="tag-row">
+                <span class="tag">Node.js</span><span class="tag">SQL</span><span class="tag">APIs</span><span class="tag">Docker</span>
+              </div>
+              <div class="pkg-meta"><span>160h</span><span class="pkg-badge">6.1k instalações/mês</span></div>
+            </div>
+          </div>
+
+          <div class="cs-card" data-idx="2">
+            <div class="pkg-card">
+              <div class="pkg-top"><span class="pkg-name">@devclub/fullstack</span><span class="pkg-ver">v2026.4</span></div>
+              <p class="pkg-desc">A trilha completa: front, back, deploy e um projeto real no portfólio.</p>
+              <div class="tag-row">
+                <span class="tag">React</span><span class="tag">Node.js</span><span class="tag">Git</span><span class="tag">Deploy</span>
+              </div>
+              <div class="pkg-meta"><span>320h</span><span class="pkg-badge">mais instalado</span></div>
+            </div>
+          </div>
+
+          <div class="cs-card" data-idx="3">
+            <div class="pkg-card">
+              <div class="pkg-top"><span class="pkg-name">@devclub/carreira</span><span class="pkg-ver">v2026.1</span></div>
+              <p class="pkg-desc">Portfólio, entrevista técnica e a rede de contatos que abre a primeira vaga.</p>
+              <div class="tag-row">
+                <span class="tag">Portfólio</span><span class="tag">Mock Interview</span><span class="tag">LinkedIn</span>
+              </div>
+              <div class="pkg-meta"><span>40h</span><span class="pkg-badge">4.4k instalações/mês</span></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="cardstack-dots" role="tablist" aria-label="escolher formação">
+          <button class="cs-dot" data-idx="0" aria-label="Frontend"></button>
+          <button class="cs-dot" data-idx="1" aria-label="Backend"></button>
+          <button class="cs-dot" data-idx="2" aria-label="Fullstack"></button>
+          <button class="cs-dot" data-idx="3" aria-label="Carreira"></button>
+        </div>
+        <p class="cardstack-hint">// passe o mouse pra escolher · use ← → ou clique nos pontinhos</p>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ============================================================
+       COMO FUNCIONA (NOVA) — metodologia passo a passo
+       ============================================================ -->
+  <section class="section" id="comofunciona">
+    <div class="wrap">
+      <div class="section-head" data-reveal>
+        <span class="eyebrow">como-funciona.sh</span>
+        <h2>Do <em>Hello World</em> ao primeiro emprego, em 4 passos</h2>
+        <p class="lede">Cada etapa tem entregável real, tutor acompanhando e prazo definido. Nada de "assiste quando puder".</p>
+      </div>
+
+      <div class="steps-grid" data-reveal>
+        <div class="step-card">
+          <span class="step-num">01 · install</span>
+          <h3 class="step-title">Fundamentos com prática</h3>
+          <p class="step-desc">Semana 1 você já está escrevendo código. Lógica, HTML, CSS e JavaScript com exercícios curtos e feedback imediato do tutor.</p>
+        </div>
+        <div class="step-card">
+          <span class="step-num">02 · build</span>
+          <h3 class="step-title">Projetos que viram portfólio</h3>
+          <p class="step-desc">A cada módulo, um projeto real: landing, dashboard, API completa. Tudo commitado no seu GitHub, pronto pra mostrar.</p>
+        </div>
+        <div class="step-card">
+          <span class="step-num">03 · review</span>
+          <h3 class="step-title">Mentoria e code review</h3>
+          <p class="step-desc">Tutor humano revisa seu código, aponta o que dá pra melhorar e responde suas dúvidas em até 12h úteis.</p>
+        </div>
+        <div class="step-card">
+          <span class="step-num">04 · deploy</span>
+          <h3 class="step-title">Preparação pra vaga</h3>
+          <p class="step-desc">CV técnico, LinkedIn, mock interview e a rede de +340 empresas parceiras que já contratam nossos alunos.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ============================================================
+       ALUNOS (logs)
+       ============================================================ -->
+  <section class="section" id="alunos">
+    <div class="wrap">
+      <div class="section-head" data-reveal>
+        <span class="eyebrow">alunos.log</span>
+        <h2>Histórico de commits de quem <em>trocou de carreira</em></h2>
+      </div>
+
+      <div class="log-grid" data-reveal>
+        <div class="log-card">
+          <div class="log-hash">commit 7f3a1c9</div>
+          <div class="log-title"><span class="type">feat(carreira):</span> de operador de caixa para dev backend júnior</div>
+          <div class="log-who"><b>Marina Costa</b> → agora na Stone</div>
+          <p class="log-quote">"Eu achava que programar era coisa de gênio. A DevClub me mostrou que era só prática."</p>
+        </div>
+
+        <div class="log-card">
+          <div class="log-hash">commit 2b88e40</div>
+          <div class="log-title"><span class="type">feat(carreira):</span> trocou o RH pelo front-end</div>
+          <div class="log-who"><b>Thiago Almeida</b> → agora na Magalu</div>
+          <p class="log-quote">"Fiz o fullstack à noite, depois do trabalho. Seis meses depois pedi demissão pro emprego novo."</p>
+        </div>
+
+        <div class="log-card">
+          <div class="log-hash">commit e91d0a2</div>
+          <div class="log-title"><span class="type">feat(carreira):</span> sem faculdade, sem problema</div>
+          <div class="log-who"><b>Bruna Ferreira</b> → agora na Nubank</div>
+          <p class="log-quote">"Ninguém perguntou meu diploma na entrevista. Perguntaram meu GitHub."</p>
+        </div>
+
+        <div class="log-card">
+          <div class="log-hash">commit 5c4f77b</div>
+          <div class="log-title"><span class="type">feat(carreira):</span> segunda carreira aos 41</div>
+          <div class="log-who"><b>Carlos Menezes</b> → agora no iFood</div>
+          <p class="log-quote">"Comecei achando que era tarde. A DevClub não perguntou minha idade, só meu código."</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ============================================================
+       EMPRESAS (marquee)
+       ============================================================ -->
+  <section class="section" id="empresas">
+    <div class="wrap">
+      <div class="section-head" data-reveal>
+        <span class="eyebrow">empresas.env</span>
+        <h2>Empresas que já contrataram gente formada na DevClub</h2>
+      </div>
+    </div>
+    <div class="marquee" data-reveal>
+      <div class="marquee-track">
+        <span>iFood</span><span>Nubank</span><span>Magalu</span><span>Stone</span><span>Itaú</span><span>Mercado Livre</span><span>Ambev Tech</span><span>Localiza</span><span>XP Inc</span><span>PicPay</span><span>Loggi</span><span>QuintoAndar</span>
+        <span>iFood</span><span>Nubank</span><span>Magalu</span><span>Stone</span><span>Itaú</span><span>Mercado Livre</span><span>Ambev Tech</span><span>Localiza</span><span>XP Inc</span><span>PicPay</span><span>Loggi</span><span>QuintoAndar</span>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ============================================================
+       TUTORES
+       ============================================================ -->
+  <section class="section" id="tutores">
+    <div class="wrap">
+      <div class="section-head" data-reveal>
+        <span class="eyebrow">tutores.team</span>
+        <h2>Quem responde suas dúvidas às <em>23h de uma terça</em></h2>
+      </div>
+
+      <!-- Carrossel adaptado de https://codepen.io/Northstrix/pen/QwWoYzZ
+           (Northstrix / ui.aceternity.com) - reescrito em vanilla JS.
+           TODO: trocar Pravatar por fotos reais dos tutores e revisar quotes. -->
+      <div class="testimonials" data-reveal id="tutoresCarousel">
+        <div class="testimonials-grid">
+          <div class="testimonials-images" id="tutoresImages" aria-hidden="true"></div>
+          <div class="testimonials-content">
+            <div class="testimonials-text">
+              <h3 class="testimonials-name" id="tutoresName"></h3>
+              <p class="testimonials-role" id="tutoresRole"></p>
+              <p class="testimonials-quote" id="tutoresQuote"></p>
+            </div>
+            <div class="testimonials-nav">
+              <button class="testimonials-arrow" id="tutoresPrev" aria-label="Tutor anterior">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/></svg>
+              </button>
+              <button class="testimonials-arrow" id="tutoresNext" aria-label="Próximo tutor">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/></svg>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ============================================================
+       26 ANOS — timeline com linha que preenche no scroll
+       ============================================================ -->
+  <section class="section anniv" id="26anos">
+    <div class="wrap">
+      <div class="section-head" data-reveal>
+        <span class="eyebrow">26anos.git</span>
+        <h2>26 anos de <em>log de commits</em> — desde a lan house</h2>
+        <p class="lede">A gente começou antes da banda larga. E continua rodando.</p>
+      </div>
+
+      <div class="anniv-banner" data-reveal>
+        <div>
+          <h3>🎉 26 anos de trajetória · 11 anos de DevClub</h3>
+          <p>Começou nos anos 2000, numa lan house de bairro, com Rodolfo Mori ensinando programação pros jovens que apareciam por lá. Em 2015 virou empresa: nasceu a DevClub. Onze anos depois, seguimos na mesma missão — só que rodando pra milhares.</p>
+        </div>
+        <div class="anniv-num"><span data-count="26">0</span><small>anos de trajetória</small></div>
+      </div>
+
+      <div class="timeline" data-reveal>
+        <div class="tl-item">
+          <div class="tl-year">2000</div>
+          <figure class="tl-image">
+            <img src="assets/historia/2000.png" alt="Rodolfo Mori jovem em uma lan house dos anos 2000, cercado por livros e revistas de programação" loading="lazy">
+          </figure>
+          <p class="tl-text">Rodolfo Mori descobre programação numa lan house de bairro. Livros, apostilas e revistas de informática são os principais aliados no estudo.</p>
+        </div>
+        <div class="tl-item">
+          <div class="tl-year">2003</div>
+          <figure class="tl-image">
+            <img src="assets/historia/2003.png" alt="Rodolfo ensinando programação a um grupo de jovens ao redor de um monitor CRT em uma lan house" loading="lazy">
+          </figure>
+          <p class="tl-text">Começam as primeiras aulas informais, num computador da lan house. Parceria com o dono do salão, turmas pequenas de jovens do bairro.</p>
+        </div>
+        <div class="tl-item">
+          <div class="tl-year">2007</div>
+          <figure class="tl-image">
+            <img src="assets/historia/2007.png" alt="Rodolfo mostrando a chegada da banda larga a dois alunos em frente a um monitor" loading="lazy">
+          </figure>
+          <p class="tl-text">A banda larga chega ao Brasil de vez. As aulas ficam mais rápidas, o material acompanha e a fila de alunos aumenta.</p>
+        </div>
+        <div class="tl-item">
+          <div class="tl-year">2009</div>
+          <figure class="tl-image">
+            <img src="assets/historia/2009.png" alt="Rodolfo de braços cruzados em sua própria sala de aula, com alunos ao fundo em vários computadores" loading="lazy">
+          </figure>
+          <p class="tl-text">Rodolfo monta a própria estrutura — computadores, apostilas e sala pra chamar de sua. O projeto começa a virar escola.</p>
+        </div>
+        <div class="tl-item">
+          <div class="tl-year">2015</div>
+          <figure class="tl-image">
+            <img src="assets/historia/2015.png" alt="Rodolfo no primeiro escritório oficial da DevClub em 2015, com whiteboard mostrando a estrutura da nova empresa" loading="lazy">
+          </figure>
+          <p class="tl-text"><b>Nasce oficialmente a DevClub.</b> O ensino de bairro vira empresa: plataforma online, tutores contratados e formações estruturadas.</p>
+        </div>
+        <div class="tl-item">
+          <div class="tl-year">2020</div>
+          <figure class="tl-image">
+            <img src="assets/historia/2020.png" alt="Rodolfo trabalhando em 2020, com dashboards mostrando o crescimento da DevClub durante a pandemia" loading="lazy">
+          </figure>
+          <p class="tl-text">A pandemia acelera tudo. Como já operava online, a DevClub vira uma das principais escolas de programação do país.</p>
+        </div>
+        <div class="tl-item">
+          <div class="tl-year">2026</div>
+          <figure class="tl-image">
+            <img src="assets/historia/2026.png" alt="Rodolfo em 2026 no escritório atual da DevClub, com métricas mostrando +42 mil formados e alcance nacional" loading="lazy">
+          </figure>
+          <p class="tl-text">+42.000 formados, 340+ empresas contratando alunos da DevClub. Mesma missão da lan house — só que em escala nacional.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ============================================================
+       TURMA.NEXT (NOVA) — countdown + vagas
+       ============================================================ -->
+  <section class="section turma" id="turma">
+    <div class="wrap">
+      <div class="section-head" data-reveal style="margin-left:auto; margin-right:auto; text-align:center;">
+        <span class="eyebrow" style="justify-content:center">turma.next</span>
+        <h2>A próxima turma começa em <em>breve</em></h2>
+      </div>
+
+      <div class="turma-card" data-reveal>
+        <div class="turma-title">$ devclub --iniciar-turma</div>
+        <p class="turma-lede">Inscrições abertas · turma reduzida com acompanhamento de tutor</p>
+
+        <div class="countdown" id="countdown" aria-label="tempo restante até a próxima turma">
+          <div class="count-box"><div class="count-num" data-cd="d">00</div><div class="count-lbl">dias</div></div>
+          <div class="count-box"><div class="count-num" data-cd="h">00</div><div class="count-lbl">horas</div></div>
+          <div class="count-box"><div class="count-num" data-cd="m">00</div><div class="count-lbl">min</div></div>
+          <div class="count-box"><div class="count-num" data-cd="s">00</div><div class="count-lbl">seg</div></div>
+        </div>
+
+        <p class="turma-vagas"><b>78%</b> das vagas já preenchidas · restam poucas cadeiras</p>
+        <div class="vagas-bar"><div class="vagas-fill"></div></div>
+
+        <div class="hero-cta" style="justify-content:center; margin-top:32px;">
+          <a href="#cta" class="btn btn-primary">Garantir minha vaga <span class="arrow">→</span></a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ============================================================
+       FAQ (NOVA) — accordion nativo com <details>
+       ============================================================ -->
+  <section class="section" id="faq">
+    <div class="wrap">
+      <div class="section-head" data-reveal>
+        <span class="eyebrow">faq.help</span>
+        <h2>Perguntas <em>frequentes</em></h2>
+        <p class="lede">As dúvidas que a gente escuta todo dia no chat, respondidas sem enrolação.</p>
+      </div>
+
+      <div class="faq-list" data-reveal>
+        <details class="faq-item">
+          <summary>Preciso saber matemática ou ter faculdade pra começar?</summary>
+          <div class="faq-answer">Não. A gente ensina lógica do zero, com exemplos práticos. Mais da metade dos nossos alunos não veio da área. Vontade de aprender é o pré-requisito.</div>
+        </details>
+
+        <details class="faq-item">
+          <summary>Quanto tempo até o primeiro emprego?</summary>
+          <div class="faq-answer">Depende do seu ritmo, mas a média dos alunos do Fullstack é de 6 a 10 meses do início do curso até a primeira vaga como dev júnior.</div>
+        </details>
+
+        <details class="faq-item">
+          <summary>Como funciona a tutoria? É gente ou robô?</summary>
+          <div class="faq-answer">Gente. Tutores humanos que respondem no chat da plataforma em até 12h úteis, revisam seu código e fazem call quinzenal de acompanhamento.</div>
+        </details>
+
+        <details class="faq-item">
+          <summary>E se eu não gostar? Tenho como cancelar?</summary>
+          <div class="faq-answer">Tem sim. Você tem 7 dias corridos após a matrícula pra pedir reembolso integral, sem perguntas — direito de arrependimento previsto no CDC.</div>
+        </details>
+
+        <details class="faq-item">
+          <summary>As aulas são ao vivo ou gravadas?</summary>
+          <div class="faq-answer">Ambos. Aulas gravadas pra você fazer no seu ritmo + encontros ao vivo semanais com o tutor pra tirar dúvidas e revisar projeto.</div>
+        </details>
+
+        <details class="faq-item">
+          <summary>Consigo estudar trabalhando o dia todo?</summary>
+          <div class="faq-answer">Consegue. A maioria dos nossos alunos estuda à noite ou nos finais de semana. A trilha é flexível, mas exige constância — sugerimos 8 a 12 horas por semana.</div>
+        </details>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ============================================================
+       CTA FINAL
+       ============================================================ -->
+  <section class="section final-cta" id="cta">
+    <div class="wrap">
+      <div data-reveal>
+        <span class="eyebrow" style="justify-content:center">contato.sh</span>
+        <h2>Bora rodar esse código na <em>sua carreira</em>?</h2>
+      </div>
+
+      <div class="terminal" data-reveal>
+        <div class="terminal-head">
+          <span class="dot"></span><span class="dot"></span><span class="dot"></span>
+          <span style="margin-left:14px;">~/devclub/carreira</span>
+        </div>
+        <div class="terminal-body">
+          <div><span class="prompt">$</span> devclub --iniciar-carreira<span class="caret"></span></div>
+          <form class="terminal-form" onsubmit="return false;">
+            <input type="email" placeholder="seu-email@aqui.com" required>
+            <button type="submit">$ enviar</button>
+          </form>
+        </div>
+      </div>
+      <p class="cta-note">// sem enrolação: alguém do time te chama em até 1 dia útil</p>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="wrap status-bar">
+    <div><span class="ok">●</span> main &nbsp; <span class="ok">✓</span> build passing &nbsp; 26 anos de trajetória</div>
+    <div class="status-links">
+      <a href="#" aria-label="LinkedIn">LinkedIn</a>
+      <a href="#" aria-label="Instagram">Instagram</a>
+      <a href="#" aria-label="GitHub">GitHub</a>
+      <a href="#" aria-label="YouTube">YouTube</a>
+    </div>
+    <div>© 2026 DevClub · empresa desde 2015, café desde os anos 2000</div>
+  </div>
+</footer>
+
+<script src="js/script.js?v=2026-topscroll"></script>
+</body>
+</html>

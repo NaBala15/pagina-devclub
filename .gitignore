@@ -1,0 +1,28 @@
+# tooling (ferramentas locais, config específica da máquina)
+.claude/
+
+# SO
+.DS_Store
+Thumbs.db
+desktop.ini
+*.lnk
+
+# editores
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# segredos
+.env
+.env.local
+.env.*.local
+
+# logs
+*.log
+npm-debug.log*
+
+# node (caso venha a usar no futuro)
+node_modules/
+dist/
+build/
