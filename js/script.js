@@ -197,15 +197,8 @@ function initHeroCubes() {
   const DPR = Math.min(window.devicePixelRatio || 1, 2);
   const hero = canvas.closest('.hero') || canvas.parentElement;
 
-  /* Gradiente de cor pela diagonal do campo, igual à cena original:
-     ciano no alto → azul no meio → violeta embaixo */
-  const lerpCol = (t) => {
-    const mix = (a, b, k) => Math.round(a + (b - a) * k);
-    let c;
-    if (t < 0.5) c = [mix(79, 84, t * 2),  mix(224, 140, t * 2),  mix(255, 255, t * 2)];
-    else         c = [mix(84, 139, t * 2 - 1), mix(140, 108, t * 2 - 1), 255];
-    return c.join(',');
-  };
+  /* Paleta da casa: maioria lime, alguns cubos ciano/violeta de acento */
+  const ACCENTS = ['198,255,61', '79,224,255', '139,108,255'];
 
   let N = 0;                                         /* lado da grade (dinâmico) */
   let W = 0, H = 0, spacing = 0, cubeW = 0, cubeH = 0, hw = 0, hh = 0, cx = 0, cy = 0;
@@ -234,14 +227,12 @@ function initHeroCubes() {
     cx = W / 2;
     cy = H / 2;
 
-    /* cor por cubo (gradiente na diagonal) + estado de mola */
+    /* cor por cubo (maioria lime, acentos sorteados) + estado de mola */
     colors = []; lift = []; vel = [];
-    for (let i = 0; i < N; i++) {
-      for (let j = 0; j < N; j++) {
-        const t = clamp((i + j) / (2 * N - 2) + (Math.random() - 0.5) * 0.06, 0, 1);
-        colors.push(lerpCol(t));
-        lift.push(0); vel.push(0);
-      }
+    for (let n = 0; n < N * N; n++) {
+      const r0 = Math.random();
+      colors.push(ACCENTS[r0 > 0.88 ? 1 : r0 > 0.78 ? 2 : 0]);
+      lift.push(0); vel.push(0);
     }
   }
 
@@ -305,15 +296,10 @@ function initHeroCubes() {
     const ox = cx + offX + px;
     const oy = cy + offY;
 
-    /* ambiente: violeta embaixo + ciano no alto (como a cena original) */
-    let g = ctx.createRadialGradient(W / 2, H * 0.92, 0, W / 2, H * 0.92, W * 0.55);
-    g.addColorStop(0, 'rgba(139,108,255,0.10)');
-    g.addColorStop(1, 'rgba(139,108,255,0)');
-    ctx.fillStyle = g;
-    ctx.fillRect(0, 0, W, H);
-    g = ctx.createRadialGradient(W * 0.35, H * 0.12, 0, W * 0.35, H * 0.12, W * 0.4);
-    g.addColorStop(0, 'rgba(79,224,255,0.06)');
-    g.addColorStop(1, 'rgba(79,224,255,0)');
+    /* chão: brilho radial lime sob o campo */
+    const g = ctx.createRadialGradient(W / 2, H * 0.85, 0, W / 2, H * 0.85, W * 0.5);
+    g.addColorStop(0, 'rgba(198,255,61,0.10)');
+    g.addColorStop(1, 'rgba(198,255,61,0)');
     ctx.fillStyle = g;
     ctx.fillRect(0, 0, W, H);
 
