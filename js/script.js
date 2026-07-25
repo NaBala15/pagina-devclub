@@ -187,6 +187,180 @@ function initHeroFade() {
 
 
 /* ---------------------------------------------------------------------
+   3.5. HERO CUBES — campo de cubos isométricos em canvas 2D puro
+        (autoral, zero dependências — substitui a cena Spline)
+   --------------------------------------------------------------------- */
+function initHeroCubes() {
+  const canvas = $('#heroCubes');
+  if (!canvas) return;
+  const ctx = canvas.getContext('2d');
+  const DPR = Math.min(window.devicePixelRatio || 1, 2);
+  const hero = canvas.closest('.hero') || canvas.parentElement;
+
+  const GRID = 5;                                   /* 5x5 cubos */
+  const ACCENTS = ['198,255,61', '79,224,255', '139,108,255']; /* lime, ciano, violeta */
+  const accent = [];
+  for (let n = 0; n < GRID * GRID; n++) {
+    const r = Math.random();
+    accent.push(r > 0.88 ? 1 : r > 0.78 ? 2 : 0);   /* maioria lime */
+  }
+
+  let W = 0, H = 0, spacing = 0, cubeW = 0, cubeH = 0, cx = 0, cy = 0;
+  const mouse = { x: -1e4, y: -1e4 };
+  let offX = 0, offY = 0;                            /* deslocamento do drag */
+  let dragging = false, dsx = 0, dsy = 0, dox = 0, doy = 0;
+  let inView = true;
+
+  function resize() {
+    const r = hero.getBoundingClientRect();
+    W = r.width; H = r.height;
+    canvas.width = W * DPR; canvas.height = H * DPR;
+    canvas.style.width = W + 'px'; canvas.style.height = H + 'px';
+    ctx.setTransform(DPR, 0, 0, DPR, 0, 0);
+    /* cluster ocupa ~46% da largura, ancorado à direita do centro
+       (em telas estreitas centraliza e encolhe) */
+    const span = Math.min(W * 0.46, 620);
+    spacing = span / GRID;
+    cubeW = spacing * 0.86;
+    cubeH = cubeW * 0.62;
+    cx = W > 720 ? W * 0.66 : W * 0.5;
+    cy = H * 0.5;
+  }
+
+  /* um cubo isométrico: topo losango + 2 faces verticais + arestas neon */
+  function drawCube(x, y, lift, ener, acc) {
+    const w = cubeW / 2, h = cubeW / 4, ch = cubeH;
+    const yy = y - lift;
+    const col = ACCENTS[acc];
+
+    /* topo */
+    ctx.beginPath();
+    ctx.moveTo(x, yy - h); ctx.lineTo(x + w, yy);
+    ctx.lineTo(x, yy + h); ctx.lineTo(x - w, yy);
+    ctx.closePath();
+    ctx.fillStyle = `rgba(${col},${0.08 + ener * 0.30})`;
+    ctx.fill();
+
+    /* face esquerda (mais escura) */
+    ctx.beginPath();
+    ctx.moveTo(x - w, yy); ctx.lineTo(x, yy + h);
+    ctx.lineTo(x, yy + h + ch); ctx.lineTo(x - w, yy + ch);
+    ctx.closePath();
+    ctx.fillStyle = `rgba(5,6,10,${0.85})`;
+    ctx.fill();
+    ctx.strokeStyle = `rgba(${col},${0.10 + ener * 0.25})`;
+    ctx.lineWidth = 1;
+    ctx.stroke();
+
+    /* face direita (meio-tom) */
+    ctx.beginPath();
+    ctx.moveTo(x + w, yy); ctx.lineTo(x, yy + h);
+    ctx.lineTo(x, yy + h + ch); ctx.lineTo(x + w, yy + ch);
+    ctx.closePath();
+    ctx.fillStyle = `rgba(10,13,19,${0.9})`;
+    ctx.fill();
+    ctx.strokeStyle = `rgba(${col},${0.14 + ener * 0.30})`;
+    ctx.stroke();
+
+    /* arestas do topo com glow proporcional à energia */
+    ctx.beginPath();
+    ctx.moveTo(x, yy - h); ctx.lineTo(x + w, yy);
+    ctx.lineTo(x, yy + h); ctx.lineTo(x - w, yy);
+    ctx.closePath();
+    ctx.strokeStyle = `rgba(${col},${0.35 + ener * 0.65})`;
+    ctx.lineWidth = 1.5;
+    if (ener > 0.25) {
+      ctx.shadowColor = `rgba(${col},0.9)`;
+      ctx.shadowBlur = 18 * ener;
+    }
+    ctx.stroke();
+    ctx.shadowBlur = 0;
+  }
+
+  function frame(now) {
+    const t = now / 1000;
+    ctx.clearRect(0, 0, W, H);
+
+    /* decaimento em mola do drag quando solto */
+    if (!dragging) { offX *= 0.92; offY *= 0.92; }
+    /* parallax sutil com a posição do mouse */
+    const px = mouse.x > -1e3 ? (mouse.x - W / 2) * 0.02 : 0;
+    const ox = cx + offX + px;
+    const oy = cy + offY;
+
+    /* chão: brilho radial lime sob o cluster */
+    const floorY = oy + (GRID * spacing) / 4 + cubeH * 1.4;
+    const g = ctx.createRadialGradient(ox, floorY, 0, ox, floorY, spacing * GRID * 0.7);
+    g.addColorStop(0, 'rgba(198,255,61,0.10)');
+    g.addColorStop(1, 'rgba(198,255,61,0)');
+    ctx.fillStyle = g;
+    ctx.fillRect(0, 0, W, H);
+
+    /* pinta de trás pra frente (painter's algorithm: i+j crescente) */
+    for (let s = 0; s <= (GRID - 1) * 2; s++) {
+      for (let i = 0; i <= s; i++) {
+        const j = s - i;
+        if (i >= GRID || j >= GRID) continue;
+
+        const x = ox + (i - j) * (spacing / 2) * 1.15;
+        const y = oy + (i + j - (GRID - 1)) * (spacing / 4) * 1.15;
+
+        /* onda atravessando o campo */
+        const wave = (Math.sin(t * 1.4 + (i + j) * 0.55) + 1) * 7;
+        /* ripple: cubos perto do cursor sobem e acendem */
+        const dx = x - mouse.x, dy = y - mouse.y;
+        const sig = cubeW * 1.4;
+        const boost = Math.exp(-(dx * dx + dy * dy) / (2 * sig * sig));
+        const lift = wave + boost * 26;
+        const ener = clamp(wave / 28 + boost, 0, 1);
+
+        drawCube(x, y, lift, ener, accent[i * GRID + j]);
+      }
+    }
+  }
+
+  /* interação: ripple segue o mouse mesmo sobre o texto do hero */
+  hero.addEventListener('mousemove', (e) => {
+    const r = canvas.getBoundingClientRect();
+    mouse.x = e.clientX - r.left;
+    mouse.y = e.clientY - r.top;
+  });
+  hero.addEventListener('mouseleave', () => { mouse.x = mouse.y = -1e4; });
+
+  /* drag: arrasta o campo, solta e ele volta em mola */
+  canvas.addEventListener('pointerdown', (e) => {
+    dragging = true; dsx = e.clientX; dsy = e.clientY; dox = offX; doy = offY;
+    canvas.classList.add('is-dragging');
+    canvas.setPointerCapture(e.pointerId);
+  });
+  canvas.addEventListener('pointermove', (e) => {
+    if (!dragging) return;
+    offX = clamp(dox + (e.clientX - dsx) * 0.9, -140, 140);
+    offY = clamp(doy + (e.clientY - dsy) * 0.9, -100, 100);
+  });
+  const endDrag = () => { dragging = false; canvas.classList.remove('is-dragging'); };
+  canvas.addEventListener('pointerup', endDrag);
+  canvas.addEventListener('pointercancel', endDrag);
+
+  /* pausa quando o hero sai da viewport ou a aba fica oculta */
+  new IntersectionObserver((en) => { inView = en[0].isIntersecting; }, { threshold: 0 })
+    .observe(hero);
+
+  window.addEventListener('resize', resize);
+  resize();
+
+  /* primeiro frame síncrono: canvas já nasce pintado */
+  frame(0);
+  if (REDUCED) return;     /* reduced-motion: fica no frame estático */
+
+  (function loop(now) {
+    if (inView && !document.hidden) frame(now || 0);
+    requestAnimationFrame(loop);
+  })(0);
+}
+
+
+/* ---------------------------------------------------------------------
    4. CONTADORES ANIMADOS + live-tick nos que têm [data-live]
    --------------------------------------------------------------------- */
 function initCounters() {
@@ -796,6 +970,7 @@ function initBgFundo() {
 document.addEventListener('DOMContentLoaded', () => {
   initPressStart();       // sempre primeiro — mostra/pula intro antes do resto rodar
   initReveal();
+  initHeroCubes();
   initHeroFade();
   initCounters();
   initTilt();

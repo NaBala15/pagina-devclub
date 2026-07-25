@@ -8,8 +8,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&family=Inter:wght@400;500;600&family=Press+Start+2P&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="css/style.css?v=2026-morph">
-<script type="module" src="https://unpkg.com/@splinetool/viewer@1.9.28/build/spline-viewer.js"></script>
+<link rel="stylesheet" href="css/style.css?v=2026-cubes">
 </head>
 <body>
 
@@ -52,12 +51,8 @@
        HERO — cena 3D Spline + conteúdo por cima
        ============================================================ -->
   <section class="hero">
-    <!-- Cena 3D — 1 viewer só, zoom agressivo pra cubos preencherem lado a lado
-         e mouse interagir com a cena como uma coisa só -->
-    <spline-viewer class="hero-spline"
-      url="https://prod.spline.design/dJqTIQ-tE3ULUPMi/scene.splinecode"
-      loading-anim-type="none"
-      aria-hidden="true"></spline-viewer>
+    <!-- Campo de cubos 3D — canvas 2D isométrico autoral, zero dependências -->
+    <canvas id="heroCubes" class="hero-cubes" aria-hidden="true"></canvas>
 
     <!-- Véu de gradiente pra contraste do texto -->
     <div class="hero-veil" aria-hidden="true"></div>
@@ -386,7 +381,7 @@
             <div class="proj-meta">
               <div class="proj-name">DevClub — 26 anos</div>
               <div class="proj-author">JeffDev · <em>minha primeira página como programador</em> — é esta que você está navegando</div>
-              <div class="tag-row"><span class="tag">HTML</span><span class="tag">CSS</span><span class="tag">JavaScript</span><span class="tag">Spline 3D</span></div>
+              <div class="tag-row"><span class="tag">HTML</span><span class="tag">CSS</span><span class="tag">JavaScript</span><span class="tag">Canvas 3D</span></div>
             </div>
           </article>
 
@@ -706,7 +701,7 @@
   <details class="wrap credits">
     <summary><span class="c">// créditos e inspirações</span><span class="credits-toggle" aria-hidden="true">+</span></summary>
     <p>
-      Hero 3D via <a href="https://spline.design" target="_blank" rel="noopener">Spline</a> ·
+      Cubos 3D do hero: canvas 2D isométrico autoral (sem bibliotecas) ·
       CardStack e Testimonials adaptados de <a href="https://ui.aceternity.com" target="_blank" rel="noopener">ui.aceternity.com</a> e
       <a href="https://codepen.io/Northstrix/pen/QwWoYzZ" target="_blank" rel="noopener">Northstrix/CodePen</a> ·
       Ícones da tela pixel PRESS START inspirados em fontes retrô ·
@@ -719,6 +714,6 @@
   </details>
 </footer>
 
-<script src="js/script.js?v=2026-morph2"></script>
+<script src="js/script.js?v=2026-cubes2"></script>
 </body>
 </html>
