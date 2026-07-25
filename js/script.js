@@ -197,15 +197,19 @@ function initHeroCubes() {
   const DPR = Math.min(window.devicePixelRatio || 1, 2);
   const hero = canvas.closest('.hero') || canvas.parentElement;
 
-  const GRID = 5;                                   /* 5x5 cubos */
-  const ACCENTS = ['198,255,61', '79,224,255', '139,108,255']; /* lime, ciano, violeta */
-  const accent = [];
-  for (let n = 0; n < GRID * GRID; n++) {
-    const r = Math.random();
-    accent.push(r > 0.88 ? 1 : r > 0.78 ? 2 : 0);   /* maioria lime */
-  }
+  /* Gradiente de cor pela diagonal do campo, igual à cena original:
+     ciano no alto → azul no meio → violeta embaixo */
+  const lerpCol = (t) => {
+    const mix = (a, b, k) => Math.round(a + (b - a) * k);
+    let c;
+    if (t < 0.5) c = [mix(79, 84, t * 2),  mix(224, 140, t * 2),  mix(255, 255, t * 2)];
+    else         c = [mix(84, 139, t * 2 - 1), mix(140, 108, t * 2 - 1), 255];
+    return c.join(',');
+  };
 
-  let W = 0, H = 0, spacing = 0, cubeW = 0, cubeH = 0, cx = 0, cy = 0;
+  let N = 0;                                         /* lado da grade (dinâmico) */
+  let W = 0, H = 0, spacing = 0, cubeW = 0, cubeH = 0, hw = 0, hh = 0, cx = 0, cy = 0;
+  let colors = [], lift = [], vel = [];              /* estado por cubo */
   const mouse = { x: -1e4, y: -1e4 };
   let offX = 0, offY = 0;                            /* deslocamento do drag */
   let dragging = false, dsx = 0, dsy = 0, dox = 0, doy = 0;
@@ -217,21 +221,34 @@ function initHeroCubes() {
     canvas.width = W * DPR; canvas.height = H * DPR;
     canvas.style.width = W + 'px'; canvas.style.height = H + 'px';
     ctx.setTransform(DPR, 0, 0, DPR, 0, 0);
-    /* cluster ocupa ~46% da largura, ancorado à direita do centro
-       (em telas estreitas centraliza e encolhe) */
-    const span = Math.min(W * 0.46, 620);
-    spacing = span / GRID;
+
+    /* campo cobre o hero de lado a lado; cubos grandes como na cena antiga */
+    spacing = clamp(W / 13, 60, 104);
     cubeW = spacing * 0.86;
     cubeH = cubeW * 0.62;
-    cx = W > 720 ? W * 0.66 : W * 0.5;
-    cy = H * 0.5;
+    hw = spacing * 0.575;                            /* meio-passo iso X (com gap) */
+    hh = spacing * 0.2875;                           /* meio-passo iso Y */
+    const needW = Math.ceil((W / 2 + spacing * 2) / hw) + 1;
+    const needH = Math.ceil((H / hh + 6) / 2);
+    N = Math.min(24, Math.max(needW, needH));
+    cx = W / 2;
+    cy = H / 2;
+
+    /* cor por cubo (gradiente na diagonal) + estado de mola */
+    colors = []; lift = []; vel = [];
+    for (let i = 0; i < N; i++) {
+      for (let j = 0; j < N; j++) {
+        const t = clamp((i + j) / (2 * N - 2) + (Math.random() - 0.5) * 0.06, 0, 1);
+        colors.push(lerpCol(t));
+        lift.push(0); vel.push(0);
+      }
+    }
   }
 
   /* um cubo isométrico: topo losango + 2 faces verticais + arestas neon */
-  function drawCube(x, y, lift, ener, acc) {
+  function drawCube(x, y, up, ener, col) {
     const w = cubeW / 2, h = cubeW / 4, ch = cubeH;
-    const yy = y - lift;
-    const col = ACCENTS[acc];
+    const yy = y - up;
 
     /* topo */
     ctx.beginPath();
@@ -288,33 +305,46 @@ function initHeroCubes() {
     const ox = cx + offX + px;
     const oy = cy + offY;
 
-    /* chão: brilho radial lime sob o cluster */
-    const floorY = oy + (GRID * spacing) / 4 + cubeH * 1.4;
-    const g = ctx.createRadialGradient(ox, floorY, 0, ox, floorY, spacing * GRID * 0.7);
-    g.addColorStop(0, 'rgba(198,255,61,0.10)');
-    g.addColorStop(1, 'rgba(198,255,61,0)');
+    /* ambiente: violeta embaixo + ciano no alto (como a cena original) */
+    let g = ctx.createRadialGradient(W / 2, H * 0.92, 0, W / 2, H * 0.92, W * 0.55);
+    g.addColorStop(0, 'rgba(139,108,255,0.10)');
+    g.addColorStop(1, 'rgba(139,108,255,0)');
+    ctx.fillStyle = g;
+    ctx.fillRect(0, 0, W, H);
+    g = ctx.createRadialGradient(W * 0.35, H * 0.12, 0, W * 0.35, H * 0.12, W * 0.4);
+    g.addColorStop(0, 'rgba(79,224,255,0.06)');
+    g.addColorStop(1, 'rgba(79,224,255,0)');
     ctx.fillStyle = g;
     ctx.fillRect(0, 0, W, H);
 
     /* pinta de trás pra frente (painter's algorithm: i+j crescente) */
-    for (let s = 0; s <= (GRID - 1) * 2; s++) {
+    const sig = spacing * 1.15;
+    for (let s = 0; s <= (N - 1) * 2; s++) {
       for (let i = 0; i <= s; i++) {
         const j = s - i;
-        if (i >= GRID || j >= GRID) continue;
+        if (i >= N || j >= N) continue;
 
-        const x = ox + (i - j) * (spacing / 2) * 1.15;
-        const y = oy + (i + j - (GRID - 1)) * (spacing / 4) * 1.15;
+        const idx = i * N + j;
+        const x = ox + (i - j) * hw;
+        const y = oy + (i + j - (N - 1)) * hh;
 
-        /* onda atravessando o campo */
-        const wave = (Math.sin(t * 1.4 + (i + j) * 0.55) + 1) * 7;
-        /* ripple: cubos perto do cursor sobem e acendem */
+        /* culling: pula cubos fora da tela */
+        if (x < -spacing * 2 || x > W + spacing * 2 ||
+            y < -spacing * 2 || y > H + spacing * 2) continue;
+
+        /* onda suave de fundo + alvo do ripple do cursor */
+        const wave = (Math.sin(t * 1.2 + (i + j) * 0.5) + 1) * 5;
         const dx = x - mouse.x, dy = y - mouse.y;
-        const sig = cubeW * 1.4;
         const boost = Math.exp(-(dx * dx + dy * dy) / (2 * sig * sig));
-        const lift = wave + boost * 26;
-        const ener = clamp(wave / 28 + boost, 0, 1);
+        const target = wave + boost * 30;
 
-        drawCube(x, y, lift, ener, accent[i * GRID + j]);
+        /* mola por cubo: sobe e assenta suave, como a cena original */
+        vel[idx] += (target - lift[idx]) * 0.14;
+        vel[idx] *= 0.78;
+        lift[idx] += vel[idx];
+
+        const ener = clamp(boost * 1.1 + wave / 26, 0, 1);
+        drawCube(x, y, lift[idx], ener, colors[idx]);
       }
     }
   }
