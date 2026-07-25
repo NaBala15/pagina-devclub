@@ -73,11 +73,11 @@ function initPressStart() {
       return;
     }
 
-    /* Overlay some enquanto o stack de código começa a cair */
+    /* Overlay some enquanto os blocos de código caem nos seus lugares */
     overlay.classList.add('is-leaving');
     setTimeout(() => overlay.remove(), 500);
 
-    startCodeStack(heroEls);
+    startCodeMorph(heroEls);
   };
 
   document.addEventListener('keydown', dismiss);
@@ -85,93 +85,66 @@ function initPressStart() {
   overlay.addEventListener('touchstart', dismiss, { passive: true });
 }
 
-function startCodeStack(heroEls) {
-  const stack = document.createElement('div');
-  stack.className = 'code-stack';
-  stack.setAttribute('aria-hidden', 'true');
+function startCodeMorph(heroEls) {
+  const morph = document.createElement('div');
+  morph.className = 'code-morph';
+  morph.setAttribute('aria-hidden', 'true');
 
-  /* Backdrop separado — recebe clip-path pra revelar site em faixas */
+  /* Backdrop escuro — clareia um degrau a cada bloco que pousa */
   const bg = document.createElement('div');
-  bg.className = 'code-stack-bg';
-  stack.appendChild(bg);
+  bg.className = 'code-morph-bg';
+  morph.appendChild(bg);
+  document.body.appendChild(morph);
 
-  /* Container das linhas — continua visível acima do backdrop */
-  const inner = document.createElement('div');
-  inner.className = 'code-stack-inner';
-  stack.appendChild(inner);
-
-  document.body.appendChild(stack);
-  requestAnimationFrame(() => stack.classList.add('is-active'));
-  setTimeout(() => stack.classList.add('is-active'), 60);
-
-  /* 12 linhas essenciais — mostram a estrutura do hero rapidinho */
-  const lines = [
-    '<span class="c">&lt;!-- HERO --&gt;</span>',
-    '<span class="p">&lt;</span><span class="t">section</span> <span class="a">class</span><span class="p">=</span><span class="s">"hero"</span><span class="p">&gt;</span>',
-    '  <span class="p">&lt;</span><span class="t">spline-viewer</span> <span class="a">url</span><span class="p">=</span><span class="s">"scene.splinecode"</span><span class="p">&gt;</span><span class="p">&lt;/</span><span class="t">spline-viewer</span><span class="p">&gt;</span>',
-    '  <span class="p">&lt;</span><span class="t">div</span> <span class="a">class</span><span class="p">=</span><span class="s">"hero-veil"</span><span class="p">&gt;</span><span class="p">&lt;/</span><span class="t">div</span><span class="p">&gt;</span>',
-    '  <span class="p">&lt;</span><span class="t">div</span> <span class="a">class</span><span class="p">=</span><span class="s">"wrap hero-content"</span><span class="p">&gt;</span>',
-    '    <span class="p">&lt;</span><span class="t">div</span> <span class="a">class</span><span class="p">=</span><span class="s">"hero-badge"</span><span class="p">&gt;</span>origem em 2000<span class="p">&lt;/</span><span class="t">div</span><span class="p">&gt;</span>',
-    '    <span class="p">&lt;</span><span class="t">h1</span> <span class="a">class</span><span class="p">=</span><span class="s">"hero-title"</span><span class="p">&gt;</span>',
-    '      A escola que forma programador de verdade.',
-    '    <span class="p">&lt;/</span><span class="t">h1</span><span class="p">&gt;</span>',
-    '    <span class="p">&lt;</span><span class="t">a</span> <span class="a">href</span><span class="p">=</span><span class="s">"#formacoes"</span><span class="p">&gt;</span>Ver formações<span class="p">&lt;/</span><span class="t">a</span><span class="p">&gt;</span>',
-    '  <span class="p">&lt;/</span><span class="t">div</span><span class="p">&gt;</span>',
-    '<span class="p">&lt;/</span><span class="t">section</span><span class="p">&gt;</span>',
+  /* Snippet correspondente a cada elemento, na MESMA ordem de
+     HERO_ASSEMBLE_ORDER: proof, cta, sub(lede), title, badge */
+  const snippets = [
+    '<span class="p">&lt;</span><span class="t">div</span> <span class="a">class</span><span class="p">=</span><span class="s">"hero-proof"</span><span class="p">&gt;</span>+42.300 alunos<span class="p">&lt;/</span><span class="t">div</span><span class="p">&gt;</span>',
+    '<span class="p">&lt;</span><span class="t">a</span> <span class="a">href</span><span class="p">=</span><span class="s">"#formacoes"</span> <span class="a">class</span><span class="p">=</span><span class="s">"btn"</span><span class="p">&gt;</span>Ver formações →<span class="p">&lt;/</span><span class="t">a</span><span class="p">&gt;</span>',
+    '<span class="p">&lt;</span><span class="t">p</span> <span class="a">class</span><span class="p">=</span><span class="s">"lede"</span><span class="p">&gt;</span>Do primeiro Hello World ao primeiro emprego.<span class="p">&lt;/</span><span class="t">p</span><span class="p">&gt;</span>',
+    '<span class="p">&lt;</span><span class="t">h1</span> <span class="a">class</span><span class="p">=</span><span class="s">"hero-title"</span><span class="p">&gt;</span>A escola que forma programador de verdade.<span class="p">&lt;/</span><span class="t">h1</span><span class="p">&gt;</span>',
+    '<span class="p">&lt;</span><span class="t">div</span> <span class="a">class</span><span class="p">=</span><span class="s">"hero-badge"</span><span class="p">&gt;</span>origem em 2000<span class="p">&lt;/</span><span class="t">div</span><span class="p">&gt;</span>',
   ];
 
-  /* Monta todas as linhas em source order (leitura correta ao final) */
-  const lineEls = lines.map(html => {
-    const el = document.createElement('div');
-    el.className = 'code-line';
-    el.innerHTML = html;
-    inner.appendChild(el);
-    return el;
-  });
+  const FALL = 550;      /* duração da queda */
+  const STAGGER = 300;   /* intervalo entre blocos */
+  const MORPH = 260;     /* crossfade bloco → elemento real */
+  const vw = window.innerWidth;
+  const N = heroEls.length;
 
-  /* Landing em ORDEM REVERSA: última source cai primeiro no bottom,
-     primeira source cai por último no topo → montando de baixo pra cima */
-  const STAGGER = 180;
-  lineEls.forEach((el, sourceIdx) => {
-    const dropOrder = lineEls.length - 1 - sourceIdx;
-    setTimeout(() => el.classList.add('landed'), dropOrder * STAGGER);
-  });
-
-  const STACK_TOTAL = (lineEls.length - 1) * STAGGER + 550;
-
-  /* Revela o site em FAIXAS de baixo pra cima — 5 steps sincronizados
-     com o stack (menos steps agora que o stack é mais curto) */
-  const STRIP_COUNT = 5;
-  const STRIP_DELAY = Math.floor(STACK_TOTAL / (STRIP_COUNT + 1));
-  for (let s = 1; s <= STRIP_COUNT; s++) {
-    setTimeout(() => {
-      const pct = (s / STRIP_COUNT) * 100;
-      bg.style.clipPath = `inset(0 0 ${pct}% 0)`;
-    }, s * STRIP_DELAY);
-  }
-
-  /* Montagem do hero começa cedo (30% do stack) — assim já está pronto
-     quando o fade do stack começa, sem gap "parado na frente" */
-  const HERO_START = Math.round(STACK_TOTAL * 0.3);
-  const HERO_STAGGER = 200;
   heroEls.forEach((el, i) => {
-    setTimeout(() => el.classList.add('is-assembled'), HERO_START + i * HERO_STAGGER);
+    const line = document.createElement('div');
+    line.className = 'morph-line';
+    line.innerHTML = snippets[i] || snippets[snippets.length - 1];
+    line.style.transform = 'translateY(-120vh)';   /* fora da tela, em cima */
+    morph.appendChild(line);
+
+    const t0 = 30 + i * STAGGER;
+    /* posiciona no lugar exato do elemento REAL medido na hora da queda
+       (protege contra shift de layout por fonte carregando no meio) */
+    setTimeout(() => {
+      const rect = el.getBoundingClientRect();
+      const w = Math.min(line.offsetWidth, vw * 0.92);
+      line.style.left = clamp(rect.left, 8, Math.max(8, vw - w - 8)) + 'px';
+      line.style.top  = clamp(rect.top, 8, window.innerHeight - 48) + 'px';
+      void line.offsetWidth;   /* commita posição antes de animar a queda */
+      line.style.transform = 'translateY(0)';
+    }, t0);
+    /* pousa: elemento real materializa, bloco evapora, fundo clareia */
+    setTimeout(() => {
+      el.classList.add('is-assembled');
+      line.classList.add('out');
+      bg.style.opacity = String(Math.max(0, 1 - (i + 1) / N));
+    }, t0 + FALL);
+    setTimeout(() => line.remove(), t0 + FALL + MORPH + 200);
   });
 
-  const HERO_DONE = HERO_START + (heroEls.length - 1) * HERO_STAGGER + 500;
-  /* Fade dispara imediatamente quando a última linha cai — sem buffer extra */
-  const FADE_OUT_AT = Math.max(STACK_TOTAL, HERO_DONE);
-
-  /* Fade out do stack: rápido (350ms) pra liberar hero logo */
-  setTimeout(() => {
-    stack.classList.remove('is-active');
-    setTimeout(() => stack.remove(), 350);
-  }, FADE_OUT_AT);
-
-  /* Safety net: garante hero visível mesmo se algum timer falhar */
+  /* Encerramento + safety net (garante hero visível de qualquer jeito) */
+  const TOTAL = 30 + (N - 1) * STAGGER + FALL + MORPH + 450;
   setTimeout(() => {
     heroEls.forEach(el => el.classList.add('is-assembled'));
-  }, FADE_OUT_AT + 400);
+    morph.remove();
+  }, TOTAL);
 }
 
 

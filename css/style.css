@@ -74,81 +74,63 @@
   30%{ opacity: 0.2; }
 }
 
-/* Falling Block Puzzle — linhas de HTML caindo e stackando de baixo pra cima
-   e revelando o site atrás em faixas horizontais */
-.code-stack{
+/* Code morph — cada linha de código cai no lugar EXATO do elemento
+   que ela representa e "vira" o elemento real ao pousar */
+.code-morph{
   position:fixed; inset:0;
   z-index:99998;
   pointer-events:none;
-  opacity:0;
-  transition: opacity .35s ease;
 }
-.code-stack.is-active{ opacity: 1; }
-
-/* Backdrop escuro separado (recebe clip-path pra revelar site em faixas) */
-.code-stack-bg{
+.code-morph-bg{
   position:absolute; inset:0;
-  background: rgba(3,5,9,0.88);
-  clip-path: inset(0 0 0 0);
-  transition: clip-path .55s cubic-bezier(.4, 0, .2, 1);
+  background:rgba(3,5,9,0.9);
+  opacity:1;
+  transition:opacity .5s ease;
 }
-
-/* Container das linhas — fica acima do backdrop e continua visível */
-.code-stack-inner{
+.morph-line{
   position:absolute;
-  left:50%; bottom:8%;
-  transform: translateX(-50%);
-  width: min(720px, 92vw);
-  display:flex;
-  flex-direction:column;
-  gap: 3px;
-  font-family: var(--mono);
-  font-size: 13px;
-  line-height: 1.55;
-  white-space: pre;
-  filter: drop-shadow(0 6px 30px rgba(0,0,0,0.85));
+  max-width:92vw;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  font-family:var(--mono);
+  font-size:14px;
+  line-height:1.5;
+  white-space:pre;
+  padding:7px 16px;
+  background:rgba(198,255,61,0.07);
+  border-left:2px solid var(--lime);
+  border-radius:5px;
+  color:var(--text);
+  box-shadow:
+    0 12px 40px rgba(0,0,0,0.7),
+    0 0 24px -6px rgba(198,255,61,0.4);
+  will-change:transform, opacity;
+  transition:
+    transform .55s cubic-bezier(.2, 1.25, .35, 1),
+    opacity .26s ease,
+    filter .26s ease;
 }
-
-/* Cada linha = bloco sólido de código */
-.code-line{
-  padding: 4px 14px;
-  min-height: 26px;
-  background: rgba(198,255,61,0.04);
-  border-left: 2px solid rgba(198,255,61,0.15);
-  border-radius: 3px;
-  opacity: 0;
-  transform: translateY(-100vh);
-  color: var(--text);
-  will-change: transform, opacity;
+.morph-line.out{
+  opacity:0;
+  filter:blur(4px);
 }
-.code-line.landed{
-  animation: blockDrop .55s cubic-bezier(.2, 1.4, .32, 1) forwards;
-  border-left-color: var(--lime);
-  background: rgba(198,255,61,0.06);
-}
-@keyframes blockDrop{
-  0%   { transform: translateY(-100vh); opacity: 0; }
-  70%  { transform: translateY(6px);    opacity: 1; }
-  85%  { transform: translateY(0) scaleY(0.88); }
-  100% { transform: translateY(0) scaleY(1);   opacity: 1; }
-}
-
 /* Syntax highlight tokens */
-.code-line .t{ color: var(--lime);      font-weight: 600; }
-.code-line .p{ color: var(--text-dim);  }
-.code-line .a{ color: var(--info);      }
-.code-line .s{ color: var(--warn);      }
-.code-line .c{ color: var(--comment);   font-style: italic; }
+.morph-line .t{ color:var(--lime);     font-weight:600; }
+.morph-line .p{ color:var(--text-dim); }
+.morph-line .a{ color:var(--info);     }
+.morph-line .s{ color:var(--warn);     }
+.morph-line .c{ color:var(--comment);  font-style:italic; }
 
-/* Estados de "montagem" do hero (bottom-up após code rain) */
+/* Estados de "montagem" do hero — o elemento materializa no lugar
+   onde o bloco de código pousou (crossfade curto, sem viajar) */
 .hero .to-assemble{
   opacity: 0;
-  transform: translateY(30px);
-  filter: blur(4px);
+  transform: translateY(10px);
+  filter: blur(3px);
   transition:
-    opacity .6s cubic-bezier(.22,1,.36,1),
-    transform .6s cubic-bezier(.22,1,.36,1),
-    filter .6s cubic-bezier(.22,1,.36,1);
+    opacity .45s cubic-bezier(.22,1,.36,1),
+    transform .45s cubic-bezier(.22,1,.36,1),
+    filter .45s cubic-bezier(.22,1,.36,1);
 }
 .hero .to-assemble.is-assembled{
   opacity: 1;
