@@ -784,32 +784,31 @@ function initTutoresCarousel() {
   const prevBtn = $('#tutoresPrev', root);
   const nextBtn = $('#tutoresNext', root);
 
-  /* TODO: trocar por fotos reais dos tutores; quotes são placeholders. */
   const tutores = [
     {
       name: 'Renata Silva', role: 'Tutora de Frontend · na DevClub desde 2015',
       quote: 'Frontend não é só o que se vê — é o que se sente ao usar. Ensino código, mas antes disso ensino empatia com quem vai clicar.',
-      src: 'https://i.pinimg.com/1200x/fc/ee/dd/fceeddec120d9dffb8719fbc436ec50f.jpg'
+      src: 'assets/tutores/renata.jpg'
     },
     {
       name: 'Felipe Andrade', role: 'Tutor de Backend · na DevClub desde 2012',
       quote: 'Backend bom é aquele que ninguém percebe funcionando. Meu papel é te ensinar a construir a base invisível que segura tudo em cima.',
-      src: 'https://i.pravatar.cc/720?u=devclub'
+      src: 'assets/tutores/felipe.jpg'
     },
     {
       name: 'Juliana Prado', role: 'Tutora de Carreira · na DevClub desde 2018',
       quote: 'Sua próxima vaga não depende do seu diploma, depende do seu último projeto. Ajudo você a montar um portfólio que fala por você.',
-      src: 'https://i.pinimg.com/736x/5c/ac/4a/5cac4af1edcc833eba2f6d049824285c.jpg'
+      src: 'assets/tutores/juliana.jpg'
     },
     {
       name: 'Diego Nunes', role: 'Tutor Fullstack · na DevClub desde 2009',
       quote: 'Do rascunho ao deploy — se não roda em produção, ainda não terminou. Ensino o caminho inteiro, sem pular etapa.',
-      src: 'https://img.magnific.com/fotos-gratis/retrato-de-jovem-latino-confiante-sorrindo-e-olhando-em-pe-ao-ar-livre-na-rua-conceito-urbano_58466-15004.jpg?semt=ais_hybrid&w=740&q=80'
+      src: 'assets/tutores/diego.jpg'
     },
     {
       name: 'Ana Beatriz Lima', role: 'Tutora de IA aplicada · na DevClub desde 2021',
       quote: 'IA não substitui programador. Programador que sabe usar IA substitui quem não sabe. Vim ensinar você a estar do lado certo.',
-      src: 'https://i.pinimg.com/736x/19/7c/db/197cdb73bdd8bcc9a7bcc8b2b5f89433.jpg'
+      src: 'assets/tutores/ana.jpg'
     },
   ];
 
